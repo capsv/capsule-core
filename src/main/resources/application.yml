@@ -4,8 +4,8 @@ server:
 spring:
   datasource:
     name: postgres
-    password: 1111
-    url: jdbc:postgresql://localhost:5432/vega
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/copaver
     driver-class-name: org.postgresql.Driver
 
   jpa:
