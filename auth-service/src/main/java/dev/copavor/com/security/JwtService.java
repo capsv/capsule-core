@@ -2,11 +2,14 @@ package dev.copavor.com.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import dev.copavor.com.utils.exceptions.TokenNotValidException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -16,7 +19,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class JwtService {
 
     @Value("${application.security.jwt.secret-key}")
@@ -25,6 +30,8 @@ public class JwtService {
     private long jwtExpiration;
     @Value("${application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
+
+    private final PersonDetailsService personDetailsService;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -100,6 +107,21 @@ public class JwtService {
             return jwt.getExpiresAt();
         } catch (Exception e) {
             throw new RuntimeException("Failed to decode JWT", e);
+        }
+    }
+
+    public Boolean validateJwt(String token){
+        try {
+            log.debug(token);
+            String username = extractUsername(token);
+            UserDetails userDetails = personDetailsService.loadUserByUsername(username);
+
+            log.debug("DEBUG VALIDATE TOKEN: EXTRACT USERNAME: "+username+" USER DETAILS: "+userDetails.getAuthorities());
+            return isTokenValid(token, userDetails);
+
+        } catch (Exception e) {
+            log.debug("DEBUG VALIDATE TOKEN: THROW EXCEPTION", e);
+            return false;
         }
     }
 }

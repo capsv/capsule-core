@@ -5,6 +5,7 @@ import dev.copavor.com.common.Status;
 import dev.copavor.com.dtos.CommonDTO;
 import dev.copavor.com.dtos.requests.PersonAuthReqst;
 import dev.copavor.com.dtos.requests.PersonRegisterReqst;
+import dev.copavor.com.dtos.requests.TokenReqst;
 import dev.copavor.com.dtos.responses.AuthResp;
 import dev.copavor.com.dtos.responses.NakedPersonDTO;
 import dev.copavor.com.dtos.responses.RespWrapper;
@@ -36,7 +37,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final ModelMapper mapper;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -126,6 +126,11 @@ public class AuthService {
                                 )
                         ).build()
         );
+    }
+
+    public ResponseEntity<Boolean> validateToken(TokenReqst token) {
+        boolean isValid = jwtService.validateJwt(token.getToken());
+        return ResponseEntity.ok(isValid);
     }
 
     private void validate(BindingResult bindingResult){

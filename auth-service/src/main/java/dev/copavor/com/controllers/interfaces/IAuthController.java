@@ -2,6 +2,7 @@ package dev.copavor.com.controllers.interfaces;
 
 import dev.copavor.com.dtos.requests.PersonAuthReqst;
 import dev.copavor.com.dtos.requests.PersonRegisterReqst;
+import dev.copavor.com.dtos.requests.TokenReqst;
 import dev.copavor.com.dtos.responses.AuthResp;
 import dev.copavor.com.dtos.responses.RespWrapper;
 import jakarta.validation.Valid;
@@ -21,4 +22,10 @@ public interface IAuthController {
     ResponseEntity<RespWrapper> authenticate(
             @RequestBody @Valid PersonAuthReqst reqst, BindingResult bindingResult
     );
+
+    @PostMapping("/validate")
+    ResponseEntity<Boolean> validate(
+            @RequestBody TokenReqst token
+            );
+
 }

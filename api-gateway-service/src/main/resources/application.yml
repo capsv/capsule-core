@@ -16,6 +16,8 @@ spring:
           predicates:
             - Path=/profile/**
 
+
+
 eureka:
   client:
     serviceUrl:
