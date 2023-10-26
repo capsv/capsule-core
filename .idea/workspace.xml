@@ -6,11 +6,54 @@
   <component name="ChangeListManager">
     <list default="true" id="c305964b-3d7c-487e-82cf-14b149a23260" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth-service/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway-service/src/main/java/dev/copavor/com/ApiGatewayMicroservice.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/java/api/gateway/dev/ApiGateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway-service/src/main/java/dev/copavor/com/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/java/api/gateway/dev/security/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway-service/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api-gateway-service/src/test/java/dev/copavor/com/ApiGatewayMicroserviceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/test/java/api/gateway/dev/ApiGatewayTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/AuthMicroservice.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/common/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/common/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/common/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/common/Status.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/configs/ApplicationConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/configs/ApplicationConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/configs/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/configs/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/controllers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/controllers/advices/AuthControllerAdvice.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/controllers/advices/AuthControllerAdvice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/controllers/impls/ImplAuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/controllers/impls/ImplAuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/controllers/interfaces/IAuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/controllers/interfaces/IAuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/dtos/CommonDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/dtos/CommonDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/dtos/requests/PersonAuthReqst.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/dtos/requests/PersonAuthReqst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/dtos/requests/PersonRegisterReqst.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/dtos/requests/PersonRegisterReqst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/dtos/requests/TokenReqst.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/dtos/requests/TokenReqst.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/dtos/responses/AuthResp.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/dtos/responses/AuthResp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/dtos/responses/NakedPersonDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/dtos/responses/NakedPersonDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/dtos/responses/RespWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/dtos/responses/RespWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/dtos/responses/errors/FieldError.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/dtos/responses/errors/FieldError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/dtos/responses/errors/UserError.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/dtos/responses/errors/UserError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/models/Details.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/models/Details.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/models/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/models/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/models/common/CommonEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/models/common/CommonEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/repositories/PeopleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/repositories/PeopleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/repositories/common/CommonRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/repositories/common/CommonRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/security/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/security/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/security/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/security/PersonDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/security/PersonDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/security/PersonDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/security/PersonDetailsService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/services/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/services/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/services/PeopleDBService.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/services/PeopleDBService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/utils/exceptions/NotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/utils/exceptions/NotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/utils/exceptions/NotValidException.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/utils/exceptions/NotValidException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/utils/exceptions/TokenNotValidException.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/utils/exceptions/TokenNotValidException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/utils/validations/PersonEmailValidation.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/utils/validations/PersonEmailValidation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/main/java/dev/copavor/com/utils/validations/PersonUsernameValidation.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/main/java/auth/service/dev/utils/validations/PersonUsernameValidation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/auth-service/src/test/java/dev/copavor/com/AuthMicroserviceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/auth-service/src/test/java/auth/service/dev/AuthServiceTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-server/src/main/java/dev/copavor/com/EurekaServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-server/src/main/java/eureka/server/dev/EurekaServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eureka-server/src/test/java/dev/copavor/com/EurekaServerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-server/src/test/java/eureka/server/dev/EurekaServerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/profile-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/profile-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/profile-service/src/main/java/dev/copavor/com/ProfileMicroservice.java" beforeDir="false" afterPath="$PROJECT_DIR$/profile-service/src/main/java/profile/service/dev/ProfileService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/profile-service/src/main/java/dev/copavor/com/controllers/PeopleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/profile-service/src/main/java/profile/service/dev/controllers/PeopleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/profile-service/src/test/java/dev/copavor/com/ProfileMicroserviceTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/profile-service/src/test/java/profile/service/dev/ProfileServiceTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,9 +66,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2Wiigsam7Jd7yTCTh6GUNgAfBJz" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -37,15 +80,76 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "dev",
+    "ignore.virus.scanning.warn.message": "true",
+    "jdk.selected.JAVA_MODULE": "openjdk-21",
     "last_opened_file_path": "D:/Code/COPAVOR.COM/copavor-back-java",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="profile.service.dev" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.ApiGateway">
+    <configuration name="ApiGateway" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="api-gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="api.gateway.dev.ApiGateway" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthMicroservice" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="auth-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="dev.copavor.com.AuthMicroservice" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthService" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="auth-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="auth.service.dev.AuthService" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EurekaServer (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="eureka-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="auth.service.dev.EurekaServer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EurekaServer" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="eureka-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="dev.copavor.com.EurekaServer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProfileMicroservice" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="profile-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="dev.copavor.com.ProfileMicroservice" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProfileService" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="profile-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="profile.service.dev.ProfileService" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -55,6 +159,8 @@
       <option name="presentableId" value="Default" />
       <updated>1697221915928</updated>
       <workItem from="1697221916939" duration="1238000" />
+      <workItem from="1698328430904" duration="2686000" />
+      <workItem from="1698331175599" duration="1492000" />
     </task>
     <servers />
   </component>
