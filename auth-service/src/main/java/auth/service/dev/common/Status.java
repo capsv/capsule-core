@@ -6,5 +6,6 @@ import lombok.Getter;
 public enum Status {
 
     SUCCESS,
-    ERROR
+    ERROR,
+    NOT_VALID
 }

@@ -108,17 +108,14 @@ public class JwtService {
         }
     }
 
-    public Boolean validateJwt(String token){
+    public Boolean validateJwt(String token) {
         try {
-            log.debug(token);
             String username = extractUsername(token);
             UserDetails userDetails = personDetailsService.loadUserByUsername(username);
 
-            log.debug("DEBUG VALIDATE TOKEN: EXTRACT USERNAME: "+username+" USER DETAILS: "+userDetails.getAuthorities());
             return isTokenValid(token, userDetails);
 
         } catch (Exception e) {
-            log.debug("DEBUG VALIDATE TOKEN: THROW EXCEPTION", e);
             return false;
         }
     }

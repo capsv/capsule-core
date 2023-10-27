@@ -2,8 +2,9 @@ package auth.service.dev.controllers.impls;
 
 import auth.service.dev.dtos.requests.PersonAuthReqst;
 import auth.service.dev.dtos.requests.PersonRegisterReqst;
+import auth.service.dev.dtos.requests.RefreshTokenReqst;
 import auth.service.dev.dtos.requests.TokenReqst;
-import auth.service.dev.dtos.responses.RespWrapper;
+import auth.service.dev.dtos.responses.token.RespWrapper;
 import auth.service.dev.services.AuthService;
 import auth.service.dev.controllers.interfaces.IAuthController;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,11 @@ public abstract class ImplAuthController implements IAuthController {
     }
 
     @Override
+    public ResponseEntity<RespWrapper> authenticateByRefreshToken(RefreshTokenReqst reqst) {
+        return authService.authenticateByRefreshToken(reqst);
+    }
+
+    @Override
     public ResponseEntity<RespWrapper> authenticate(
             PersonAuthReqst reqst, BindingResult bindingResult) {
         return authService.authenticate(reqst, bindingResult);
@@ -33,7 +39,6 @@ public abstract class ImplAuthController implements IAuthController {
 
     @Override
     public ResponseEntity<Boolean> validate(TokenReqst token) {
-        log.info("--------------------\n+"+token.getToken()+"\n--------------------");
         return authService.validateToken(token);
     }
 }

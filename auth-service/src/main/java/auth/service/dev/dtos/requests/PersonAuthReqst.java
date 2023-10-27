@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 public class PersonAuthReqst {
 
-    @NotBlank(message = "should be not blank")
+    @NotBlank(message = "should be not blank",groups = {})
     @Size(min = 4, max = 254, message = "size should be between 4 and 254")
     //NOT UNIQUE
     private String username;

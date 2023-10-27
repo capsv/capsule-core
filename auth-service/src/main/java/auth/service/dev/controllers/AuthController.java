@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("auth/v1.0/api")
+@RequestMapping("auth/api/v1.0")
 public class AuthController extends ImplAuthController {
 
     public AuthController(AuthService authService) {

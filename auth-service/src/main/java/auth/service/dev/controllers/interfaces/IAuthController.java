@@ -2,8 +2,9 @@ package auth.service.dev.controllers.interfaces;
 
 import auth.service.dev.dtos.requests.PersonAuthReqst;
 import auth.service.dev.dtos.requests.PersonRegisterReqst;
+import auth.service.dev.dtos.requests.RefreshTokenReqst;
 import auth.service.dev.dtos.requests.TokenReqst;
-import auth.service.dev.dtos.responses.RespWrapper;
+import auth.service.dev.dtos.responses.token.RespWrapper;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -15,7 +16,11 @@ public interface IAuthController {
     @PostMapping("/register")
     ResponseEntity<RespWrapper> register(
             @RequestBody @Valid PersonRegisterReqst reqst, BindingResult bindingResult
-            );
+    );
+
+    @PostMapping("/token/authenticate")
+    ResponseEntity<RespWrapper> authenticateByRefreshToken(@RequestBody RefreshTokenReqst reqst);
+
 
     @PostMapping("/authenticate")
     ResponseEntity<RespWrapper> authenticate(
@@ -25,6 +30,6 @@ public interface IAuthController {
     @PostMapping("/validate")
     ResponseEntity<Boolean> validate(
             @RequestBody TokenReqst token
-            );
+    );
 
 }

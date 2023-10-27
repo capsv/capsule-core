@@ -28,6 +28,8 @@ public class Person extends CommonEntity {
     @Column(name = "password")
     private String password;
 
+    //TODO add password confirmation and compare them in the service THIS FILED SHOULD BE ADD TO DTO
+
     @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
     private Role role;
@@ -36,4 +38,16 @@ public class Person extends CommonEntity {
             cascade = CascadeType.REMOVE,
             fetch = FetchType.EAGER)
     private Details info;
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", info=" + info +
+                '}';
+    }
 }
