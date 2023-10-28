@@ -53,6 +53,11 @@ public class AuthService {
 
         usernameValidation.validate(reqst,bindingResult);
         emailValidation.validate(reqst,bindingResult);
+
+        if(!reqst.getPassword().equals(reqst.getConfirmationPassword())){
+            bindingResult.rejectValue("confirmationPassword","","the confirmation password must match the password");
+        }
+
         validate(bindingResult);
 
         var person = Person.builder()
@@ -118,7 +123,7 @@ public class AuthService {
                 .orElseThrow(()->new NotFoundException("user with username: "+username+" not found"));
 
         PersonDetails personDetails=(PersonDetails) userDetails;
-        log.info("START AUTHENTICATE BY REFRESH TOKEN: personDetails "+personDetails.toString());
+        log.info("AUTHENTICATE BY REFRESH TOKEN: {}",personDetails.toString());
 
         log.info("ALL GOOD -> STARTING GENERATING ACCESS TOKEN");
         var accessToken=jwtService.generateToken(userDetails);

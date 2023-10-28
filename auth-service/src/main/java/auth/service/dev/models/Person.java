@@ -28,8 +28,6 @@ public class Person extends CommonEntity {
     @Column(name = "password")
     private String password;
 
-    //TODO add password confirmation and compare them in the service THIS FILED SHOULD BE ADD TO DTO
-
     @Column(name = "role")
     @Enumerated(value = EnumType.STRING)
     private Role role;
