@@ -24,16 +24,18 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         ddl-auto: false
-        show_sql: true
+        show_sql: false
 
 application:
   security:
     jwt:
       secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-      expiration: 240000   # 86400000 # a day
+      expiration: 240000 #4 min  # 86400000 # a day
       refresh-token:
         expiration: 604800000 # 7 days
 
 debug: false
+
+# http://localhost:8081/swagger-ui/index.html
 springdoc:
   override-with-generic-response: false

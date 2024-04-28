@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS person
     email     varchar(255) NOT NULL UNIQUE CHECK ( length(email) > 3 ),
     password  varchar(255) NOT NULL CHECK ( length(password) > 3 ),
     role      varchar(255) NOT NULL
-    );
+);
 
 -- person-details (one-to-one)
 -- (points, missed_tasks, completed_tasks, created_at, updated_at)  must be create together with USER
@@ -26,4 +26,4 @@ CREATE TABLE IF NOT EXISTS details
 
     created_at      timestamp NOT NULL,
     updated_at      timestamp NOT NULL
-    );
+);
