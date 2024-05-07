@@ -14,10 +14,6 @@ spring:
     password: postgres
     url: jdbc:postgresql://localhost:5432/copavor
     driver-class-name: org.postgresql.Driver
-  liquibase:
-    change-log: classpath:liquibase/db.changelog.yaml
-    enabled: true
-    default-schema: public
 
   jpa:
     properties:

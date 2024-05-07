@@ -13,3 +13,4 @@ public interface PeopleRepository extends CommonRepository<Person> {
 
     Optional<Person> findPersonByEmail(String email);
 }
+

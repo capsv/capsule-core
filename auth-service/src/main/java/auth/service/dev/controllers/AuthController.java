@@ -15,3 +15,4 @@ public class AuthController extends ImplAuthController {
         super(authService);
     }
 }
+

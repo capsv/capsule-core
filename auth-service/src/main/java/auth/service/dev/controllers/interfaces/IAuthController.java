@@ -60,5 +60,5 @@ public interface IAuthController {
     ResponseEntity<Boolean> validate(
             @RequestBody TokenReqst token
     );
-
 }
+

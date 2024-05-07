@@ -36,7 +36,6 @@ import java.util.List;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
 public class AuthService {
 
     private final JwtService jwtService;
@@ -47,6 +46,19 @@ public class AuthService {
     private final PersonEmailValidation emailValidation;
     private final PersonDetailsService personDetailsService;
 
+    public AuthService(JwtService jwtService, PasswordEncoder passwordEncoder,
+        AuthenticationManager authenticationManager, PeopleDBService service,
+        PersonUsernameValidation usernameValidation, PersonEmailValidation emailValidation,
+        PersonDetailsService personDetailsService) {
+        this.jwtService = jwtService;
+        this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.service = service;
+        this.usernameValidation = usernameValidation;
+        this.emailValidation = emailValidation;
+        this.personDetailsService = personDetailsService;
+    }
+
     public ResponseEntity<RespWrapper> register(
             PersonRegisterReqst reqst, BindingResult bindingResult){
 
@@ -54,7 +66,8 @@ public class AuthService {
         emailValidation.validate(reqst,bindingResult);
 
         if(!reqst.getPassword().equals(reqst.getConfirmationPassword())){
-            bindingResult.rejectValue("confirmationPassword","","the confirmation password must match the password");
+            bindingResult.rejectValue("confirmationPassword","",
+                "the confirmation password must match the password");
         }
 
         validate(bindingResult);
