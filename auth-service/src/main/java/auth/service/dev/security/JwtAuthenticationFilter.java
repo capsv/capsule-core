@@ -1,6 +1,5 @@
 package auth.service.dev.security;
 
-
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,4 +1,4 @@
-package auth.service.dev.dtos.responses;
+package auth.service.dev.dtos.responses.token;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import auth.service.dev.common.Status;

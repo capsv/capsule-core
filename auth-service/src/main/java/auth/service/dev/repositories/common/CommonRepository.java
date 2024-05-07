@@ -7,3 +7,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface CommonRepository<E extends CommonEntity> extends JpaRepository<E, Long> {
 }
+
+

@@ -36,4 +36,16 @@ public class Person extends CommonEntity {
             cascade = CascadeType.REMOVE,
             fetch = FetchType.EAGER)
     private Details info;
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", info=" + info +
+                '}';
+    }
 }

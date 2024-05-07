@@ -1,7 +1,6 @@
-package auth.service.dev.dtos.responses;
+package auth.service.dev.dtos.responses.token;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import auth.service.dev.dtos.CommonDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResp extends CommonDTO {
+public class RefreshToken {
 
     private String token;
 
@@ -22,6 +21,4 @@ public class AuthResp extends CommonDTO {
     //Время истечения токена
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime exp;
-
-    private NakedPersonDTO user;
 }

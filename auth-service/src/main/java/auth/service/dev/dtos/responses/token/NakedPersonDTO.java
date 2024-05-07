@@ -1,4 +1,4 @@
-package auth.service.dev.dtos.responses;
+package auth.service.dev.dtos.responses.token;
 
 import auth.service.dev.dtos.CommonDTO;
 import lombok.*;
