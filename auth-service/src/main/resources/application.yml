@@ -9,11 +9,18 @@ eureka:
 spring:
   application:
     name: auth-service
+
   datasource:
-    username: postgres
-    password: postgres
-    url: jdbc:postgresql://localhost:5432/copavor
+    username: root
+    password: 9qwe1ox
+    url: jdbc:postgresql://localhost:5433/auth-service
     driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/changelog.yml
+    default-schema: auth
+    liquibase-schema: liquibase
 
   jpa:
     properties:
@@ -21,6 +28,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         ddl-auto: false
         show_sql: false
+        default_schema: auth
 
 application:
   security:

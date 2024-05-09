@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  postgres-auth:
+    container_name: auth-service-db
+    image: postgres:latest
+    environment: { POSTGRES_DB: auth-service, POSTGRES_USER: root, POSTGRES_PASSWORD: 9qwe1ox }
+    ports:
+      - "5433:5432"

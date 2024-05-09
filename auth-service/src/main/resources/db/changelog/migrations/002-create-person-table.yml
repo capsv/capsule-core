@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-person-table
+      author: trapper
+      changes:
+        - sqlFile:
+            path: migrations/sql/002-create-person-table.sql
+            relativeToChangelogFile: true

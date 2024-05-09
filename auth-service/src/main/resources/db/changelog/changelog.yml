@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - include:
+      file: migrations/001-create-schemas.yml
+      relativeToChangelogFile: true
+  - include:
+      file: migrations/002-create-person-table.yml
+      relativeToChangelogFile: true
+  - include:
+      file: migrations/003-create-root-user.yml
+      relativeToChangelogFile: true

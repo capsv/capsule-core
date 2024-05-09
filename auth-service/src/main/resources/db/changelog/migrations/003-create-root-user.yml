@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-root-user
+      author: trapper
+      changes:
+        - sqlFile:
+            path: migrations/sql/003-create-root-user.sql
+            relativeToChangelogFile: true

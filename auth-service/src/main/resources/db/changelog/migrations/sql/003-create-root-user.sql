@@ -1,0 +1,1 @@
+INSERT INTO auth.person(username, email, password, role) VALUES ('root','root@gmail.com','root','ADMIN');
