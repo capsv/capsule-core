@@ -13,13 +13,13 @@ import lombok.*;
 public class PersonRegisterReqst {
 
     @NotBlank(message = "should be not blank")
-    @Size(min = 4, max = 254, message = "size should be between 4 and 254")
+    @Size(min = 4, max = 56, message = "size should be between 4 and 56")
     //UNIQUE
     private String username;
 
     @Email(message = "must match the email template")
     @NotBlank(message = "should be not blank")
-    @Size(min = 4,max = 254, message = "size should be between 4 and 254")
+    @Size(min = 4,max = 56, message = "size should be between 4 and 56")
     //UNIQUE
     private String email;
 

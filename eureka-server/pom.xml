@@ -8,11 +8,11 @@
         <groupId>org.capsule.com</groupId>
         <artifactId>capsule-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+<!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
     </parent>
 
     <artifactId>eureka-server</artifactId>
-    <version>${module.version}</version>
+    <version>0.0.1-SNAPSHOT</version>
     <name>eureka-server</name>
     <description>The primary purpose of Eureka Server is to enable efficient service discovery
     </description>
