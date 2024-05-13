@@ -1,19 +1,33 @@
 server:
   port: 8081
 
+logging:
+  level:
+    web: info
+    cloud: info
+
 eureka:
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: ${EUREKA_SERVER_URL} #http://localhost:8761/eureka/
 
 spring:
   application:
     name: auth-service
+
   datasource:
-    username: postgres
-    password: postgres
-    url: jdbc:postgresql://localhost:5432/copavor
+    username: ${DB_USERNAME} #root
+    password: ${DB_PASSWORD} #9qwe1ox
+    url: ${DB_URL} #jdbc:postgresql://localhost:5433/auth-service
     driver-class-name: org.postgresql.Driver
+
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/changelog.yml
+    default-schema: auth
+    liquibase-schema: liquibase
 
   jpa:
     properties:
@@ -21,6 +35,10 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         ddl-auto: false
         show_sql: false
+        default_schema: auth
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}
 
 application:
   security:

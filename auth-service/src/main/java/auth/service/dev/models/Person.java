@@ -2,8 +2,19 @@ package auth.service.dev.models;
 
 import auth.service.dev.common.Role;
 import auth.service.dev.models.common.CommonEntity;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "person")
@@ -32,20 +43,9 @@ public class Person extends CommonEntity {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "owner",
-            cascade = CascadeType.REMOVE,
-            fetch = FetchType.EAGER)
-    private Details info;
-
     @Override
     public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                ", info=" + info +
-                '}';
+        return "Person{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email
+            + '\'' + ", password='" + password + '\'' + ", role=" + role + '}';
     }
 }

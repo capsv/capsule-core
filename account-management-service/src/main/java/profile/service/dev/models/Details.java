@@ -1,10 +1,17 @@
-package auth.service.dev.models;
+package profile.service.dev.models;
 
-import auth.service.dev.models.common.CommonEntity;
-import jakarta.persistence.*;
-import lombok.*;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "details")
@@ -13,7 +20,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Details extends CommonEntity {
+public class Details {
 
     @Id
     @Column(name = "details_id")
@@ -43,9 +50,4 @@ public class Details extends CommonEntity {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    @OneToOne
-    @JoinColumn(name = "person_id",
-            referencedColumnName = "person_id")
-    private Person owner;
 }
