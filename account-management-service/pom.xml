@@ -8,18 +8,18 @@
         <groupId>org.capsule.com</groupId>
         <artifactId>capsule-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-<!--        <relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
     </parent>
 
-    <artifactId>profile-service</artifactId>
+    <artifactId>account-management-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>profile-service</name>
+    <name>account-management-service</name>
     <description>User's personal data management service</description>
 
     <properties>
         <java.version>17</java.version>
         <module.version>0.0.1-SNAPSHOT</module.version>
 
+        <postgres.version>42.7.3</postgres.version>
         <preliquibase.version>1.3.0</preliquibase.version>
     </properties>
 
@@ -44,6 +44,7 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
+            <version>${postgres.version}</version>
         </dependency>
 
         <dependency>

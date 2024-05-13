@@ -1,8 +1,15 @@
 server:
   port: 8081
 
+logging:
+  level:
+    web: info
+    cloud: info
+
 eureka:
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     serviceUrl:
       defaultZone: ${EUREKA_SERVER_URL} #http://localhost:8761/eureka/
 

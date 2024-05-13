@@ -27,8 +27,9 @@
         <module>eureka-server</module>
         <module>api-gateway</module>
         <module>auth-service</module>
-        <module>profile-service</module>
+        <module>account-management-service</module>
         <module>notification-service</module>
+        <module>vivid-log-service</module>
     </modules>
 
     <dependencyManagement>

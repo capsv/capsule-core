@@ -163,6 +163,8 @@ public class AuthService {
 
     public ResponseEntity<Boolean> validateToken(TokenReqst token) {
         boolean isValid = jwtService.validateJwt(token.getToken());
+        log.info("VALIDATE TOKEN: {}", token.getToken());
+        log.info(isValid ? "VALID" : "INVALID");
         return ResponseEntity.ok(isValid);
     }
 
