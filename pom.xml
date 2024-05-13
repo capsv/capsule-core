@@ -13,8 +13,8 @@
 
     <groupId>org.capsule.com</groupId>
     <artifactId>capsule-parent</artifactId>
-    <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <properties>
         <project.version>0.0.1-SNAPSHOT</project.version>
@@ -28,6 +28,7 @@
         <module>api-gateway</module>
         <module>auth-service</module>
         <module>account-management-service</module>
+        <module>email-verify-parent</module>
         <module>notification-service</module>
         <module>vivid-log-service</module>
     </modules>
@@ -47,10 +48,12 @@
     </dependencyManagement>
 
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>

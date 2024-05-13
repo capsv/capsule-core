@@ -16,13 +16,14 @@ public class GatewayBeanConfig {
     @LoadBalanced
     public WebClient webClient() {
         return WebClient.builder()
-            .baseUrl("http://localhost:8080") //"lb://auth-service"
-            .filter(ExchangeFilterFunction.ofRequestProcessor(clientRequest -> {
-                log.info("Sending request to URI: {}", clientRequest.url());
-                return Mono.just(clientRequest);
-            })).filter(ExchangeFilterFunction.ofResponseProcessor(clientResponse -> {
-                log.info("Received response with status code: {}", clientResponse.statusCode());
-                return Mono.just(clientResponse);
-            })).build();
+//            .baseUrl("http://localhost:8080") //"lb://auth-service"
+//            .filter(ExchangeFilterFunction.ofRequestProcessor(clientRequest -> {
+//                log.info("Sending request to URI: {}", clientRequest.url());
+//                return Mono.just(clientRequest);
+//            })).filter(ExchangeFilterFunction.ofResponseProcessor(clientResponse -> {
+//                log.info("Received response with status code: {}", clientResponse.statusCode());
+//                return Mono.just(clientResponse);
+//            }))
+            .build();
     }
 }

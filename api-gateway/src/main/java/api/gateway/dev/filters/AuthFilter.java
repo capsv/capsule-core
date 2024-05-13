@@ -39,7 +39,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
 
     private Mono<Boolean> isJwtValid(String token) {
         String jwt = token.substring(7);
-        return webClient.post().uri("/auth/api/v1.0/validate") //lb://auth-service
+        return webClient.post().uri("http://localhost:8080/auth/api/v1.0/validate") //lb://auth-service
             .bodyValue(new TokenReqst(jwt)).retrieve().bodyToMono(Boolean.class)
             .onErrorResume(e -> Mono.just(false));
     }

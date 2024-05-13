@@ -5,11 +5,6 @@ spring:
   application:
     name: eureka-server
 
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
-
 eureka:
   client:
     registerWithEureka: false

@@ -8,7 +8,7 @@ eureka:
 
 spring:
   application:
-    name: profile-service
+    name: account-management-service
 
   datasource:
     username: ${DB_USERNAME} #root
@@ -19,7 +19,7 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/changelog.yml
-    default-schema: profile
+    default-schema: account
     liquibase-schema: liquibase
 
   kafka:
