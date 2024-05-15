@@ -11,9 +11,9 @@ spring:
     name: account-management-service
 
   datasource:
-    username: ${DB_USERNAME} #root
-    password: ${DB_PASSWORD} #9qwe1ox
-    url: ${DB_URL} #jdbc:postgresql://postgres-profile:5434/profile-service
+    username: ${POSTGRES_USERNAME} #root
+    password: ${POSTGRES_PASSWORD} #9qwe1ox
+    url: ${POSTGRES_ACCOUNT_URL} #jdbc:postgresql://postgres-profile:5434/profile-service
     driver-class-name: org.postgresql.Driver
 
   liquibase:
