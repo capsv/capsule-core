@@ -1,4 +1,4 @@
-package auth.service.dev.dtos.responses.token;
+package auth.service.dev.dtos.responses.tokens;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RefreshToken {
+public class AccessToken {
 
     private String token;
 

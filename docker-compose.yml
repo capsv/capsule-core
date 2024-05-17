@@ -150,31 +150,31 @@ services:
     networks:
       - capsule
 
-  notification-service:
-    container_name: notification-service
-    build: ./notification-service
-    environment:
-      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-    ports:
-      - "8083:8083"
-    depends_on:
-      - eureka-server
-    networks:
-      - capsule
-
-  vivid-log-service:
-    container_name: vivid-log-service
-    build: ./vivid-log-service
-    environment:
-      KAFKA_BOOTSTRAP_SERVER: kafka:9092
-      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-    ports:
-      - "8085:8085"
-    depends_on:
-      - kafka
-      - eureka-server
-    networks:
-      - capsule
+#  notification-service:
+#    container_name: notification-service
+#    build: ./notification-service
+#    environment:
+#      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+#    ports:
+#      - "8083:8083"
+#    depends_on:
+#      - eureka-server
+#    networks:
+#      - capsule
+#
+#  vivid-log-service:
+#    container_name: vivid-log-service
+#    build: ./vivid-log-service
+#    environment:
+#      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+#      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+#    ports:
+#      - "8085:8085"
+#    depends_on:
+#      - kafka
+#      - eureka-server
+#    networks:
+#      - capsule
 
 networks:
   capsule:

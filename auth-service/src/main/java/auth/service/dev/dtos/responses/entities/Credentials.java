@@ -1,4 +1,4 @@
-package api.gateway.dev.dtos.requests;
+package auth.service.dev.dtos.responses.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TokenReqst {
+public class Credentials {
 
-    private String token;
+    private String username;
 }

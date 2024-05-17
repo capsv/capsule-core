@@ -1,4 +1,4 @@
-package auth.service.dev.dtos.responses.token;
+package auth.service.dev.dtos.responses.tokens;
 
 import auth.service.dev.dtos.CommonDTO;
 import lombok.*;
@@ -8,11 +8,9 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegistrationResp extends CommonDTO {
+public class AuthResp extends CommonDTO {
 
     private AccessToken accessToken;
-
-    private RefreshToken refreshToken;
 
     private NakedPersonDTO user;
 }

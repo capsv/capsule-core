@@ -3,7 +3,8 @@ package auth.service.dev.services;
 import auth.service.dev.dtos.requests.PersonAuthReqst;
 import auth.service.dev.dtos.requests.PersonRegisterReqst;
 import auth.service.dev.dtos.requests.RefreshTokenReqst;
-import auth.service.dev.dtos.responses.token.*;
+import auth.service.dev.dtos.responses.entities.Credentials;
+import auth.service.dev.dtos.responses.tokens.*;
 import auth.service.dev.security.PersonDetailsService;
 import auth.service.dev.utils.exceptions.NotFoundException;
 import auth.service.dev.utils.exceptions.NotValidException;
@@ -17,7 +18,6 @@ import auth.service.dev.dtos.responses.errors.FieldError;
 import auth.service.dev.models.Person;
 import auth.service.dev.security.JwtService;
 import auth.service.dev.security.PersonDetails;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -163,9 +163,15 @@ public class AuthService {
 
     public ResponseEntity<Boolean> validateToken(TokenReqst token) {
         boolean isValid = jwtService.validateJwt(token.getToken());
-        log.info("VALIDATE TOKEN: {}", token.getToken());
         log.info(isValid ? "VALID" : "INVALID");
         return ResponseEntity.ok(isValid);
+    }
+
+    public ResponseEntity<Credentials> validateToken(String token) {
+        boolean isValid = jwtService.validateJwt(token);
+        return isValid ? ResponseEntity.ok().body(
+            Credentials.builder().username(jwtService.extractUsername(token)).build()
+        ) : ResponseEntity.ok(Credentials.builder().build());
     }
 
     private void validate(BindingResult bindingResult){

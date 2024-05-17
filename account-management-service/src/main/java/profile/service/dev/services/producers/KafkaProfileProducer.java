@@ -13,6 +13,6 @@ public class KafkaProfileProducer {
     }
 
     public void send(String token) {
-        kafkaTemplate.send("profile", "token", token);
+        kafkaTemplate.send("profile", "tokens", token);
     }
 }
