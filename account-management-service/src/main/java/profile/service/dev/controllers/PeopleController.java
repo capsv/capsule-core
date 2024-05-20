@@ -20,8 +20,6 @@ public class PeopleController {
     @GetMapping("data")
     public ResponseEntity<String> test() {
 
-        kafkaProfileProducer.send("hello");
-
         return new ResponseEntity<>("Hello, world", HttpStatus.OK);
     }
 }

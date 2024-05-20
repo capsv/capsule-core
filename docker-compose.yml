@@ -1,8 +1,9 @@
-version: '3.8'
 services:
   postgres-auth:
-    container_name: auth-service-db
     image: postgres:latest
+    container_name: auth-service-db
+    hostname: postgres-auth
+    restart: always
     environment:
       POSTGRES_DB: auth-service
       POSTGRES_USER: root
@@ -10,11 +11,13 @@ services:
     ports:
       - "5433:5432" #для подключения из вне (например, локальная разработка) используется проброшенный наружу порт 5433, в рамках сети докер используется внутренний порт 5432
     networks:
-      - capsule-net
+      - capsule
 
   postgres-account:
-    container_name: account-service-db
     image: postgres:latest
+    container_name: account-service-db
+    hostname: postgres-account
+    restart: always
     environment:
       POSTGRES_DB: account-service
       POSTGRES_USER: root
@@ -22,23 +25,41 @@ services:
     ports:
       - "5434:5432"
     networks:
-      - capsule-net
+      - capsule
+
+  postgres-email-verify:
+    image: postgres:latest
+    container_name: email-verify-service-db
+    hostname: postgres-email-verify
+    restart: always
+    environment:
+      POSTGRES_DB: email-verify-service
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 9qwe1ox
+    ports:
+      - "5435:5432"
+    networks:
+      - capsule
 
   zookeeper:
-    container_name: zookeeper
     image: zookeeper:latest
+    container_name: zookeeper
+    hostname: zookeeper
+    restart: always
     environment:
+      ZOO_MY_ID: 1
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
     networks:
-      - capsule-net
+      - capsule
 
   kafka:
+    image: confluentinc/cp-kafka:latest
     container_name: kafka
     hostname: kafka
-    image: confluentinc/cp-kafka:latest
+    restart: always
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -52,11 +73,12 @@ services:
     depends_on:
       - zookeeper
     networks:
-      - capsule-net
+      - capsule
 
   kafka-ui:
-    container_name: kafka-ui
     image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    hostname: kafka-ui
     restart: always
     environment:
       - KAFKA_CLUSTERS_0_NAME=local
@@ -68,7 +90,7 @@ services:
       - kafka
       - zookeeper
     networks:
-      - capsule-net
+      - capsule
 
   eureka-server:
     container_name: eureka-server
@@ -78,7 +100,7 @@ services:
     ports:
       - "8761:8761"
     networks:
-      - capsule-net
+      - capsule
 
   api-gateway:
     container_name: api-gateway
@@ -90,61 +112,70 @@ services:
     depends_on:
       - eureka-server
     networks:
-      - capsule-net
+      - capsule
 
   auth-service:
     container_name: auth-service
     build: ./auth-service
     environment:
-      KAFKA_BROKER_URL: kafka:9092
       KAFKA_BOOTSTRAP_SERVER: kafka:9092
       EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-      DB_USERNAME: root
-      DB_PASSWORD: 9qwe1ox
-      DB_URL: jdbc:postgresql://postgres-auth:5432/auth-service
+      POSTGRES_USERNAME: root
+      POSTGRES_PASSWORD: 9qwe1ox
+      POSTGRES_AUTH_URL: jdbc:postgresql://postgres-auth:5432/auth-service
     ports:
       - "8081:8081"
     depends_on:
       - kafka
       - eureka-server
-      - api-gateway
       - postgres-auth
     networks:
-      - capsule-net
+      - capsule
 
   account-management-service:
     container_name: account-management-service
     build: ./account-management-service
     environment:
-      KAFKA_BROKER_URL: kafka:9092
       KAFKA_BOOTSTRAP_SERVER: kafka:9092
       EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-      DB_USERNAME: root
-      DB_PASSWORD: 9qwe1ox
-      DB_URL: jdbc:postgresql://postgres-account:5432/account-service
+      POSTGRES_USERNAME: root
+      POSTGRES_PASSWORD: 9qwe1ox
+      POSTGRES_ACCOUNT_URL: jdbc:postgresql://postgres-account:5432/account-service
     ports:
       - "8082:8082"
     depends_on:
       - kafka
       - eureka-server
-      - api-gateway
       - postgres-account
     networks:
-      - capsule-net
+      - capsule
 
-  notification-service:
-    container_name: notification-service
-    build: ./notification-service
-    environment:
-      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-    ports:
-      - "8083:8083"
-    depends_on:
-      - eureka-server
-      - api-gateway
-    networks:
-      - capsule-net
+#  notification-service:
+#    container_name: notification-service
+#    build: ./notification-service
+#    environment:
+#      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+#    ports:
+#      - "8083:8083"
+#    depends_on:
+#      - eureka-server
+#    networks:
+#      - capsule
+#
+#  vivid-log-service:
+#    container_name: vivid-log-service
+#    build: ./vivid-log-service
+#    environment:
+#      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+#      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+#    ports:
+#      - "8085:8085"
+#    depends_on:
+#      - kafka
+#      - eureka-server
+#    networks:
+#      - capsule
 
 networks:
-  capsule-net:
+  capsule:
     driver: bridge

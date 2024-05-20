@@ -1,7 +1,7 @@
 package auth.service.dev.controllers.advices;
 
 import auth.service.dev.common.Status;
-import auth.service.dev.dtos.responses.token.RespWrapper;
+import auth.service.dev.dtos.responses.tokens.RespWrapper;
 import auth.service.dev.dtos.responses.errors.UserError;
 import auth.service.dev.utils.exceptions.NotFoundException;
 import auth.service.dev.utils.exceptions.NotValidException;
