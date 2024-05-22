@@ -16,12 +16,14 @@ import auth.service.dev.models.Person;
 import auth.service.dev.security.JwtService;
 import auth.service.dev.security.PersonDetails;
 import auth.service.dev.security.PersonDetailsService;
+import auth.service.dev.utils.exceptions.NotAuthenticateException;
 import auth.service.dev.utils.exceptions.NotFoundException;
 import auth.service.dev.utils.exceptions.NotValidException;
 import auth.service.dev.utils.exceptions.TokenNotValidException;
 import auth.service.dev.utils.validations.EmailValidation;
 import auth.service.dev.utils.validations.PasswordConfirmationValidation;
 import auth.service.dev.utils.validations.UsernameValidation;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -32,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,6 +45,8 @@ import org.springframework.validation.FieldError;
 @Slf4j
 public class AuthService {
 
+    private static final String NOT_AUTHENTICATE = """
+        some problem with authentication (check username or password)""";
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -74,10 +79,40 @@ public class AuthService {
 
         peopleDBService.save(person);
 
-        var accessToken = jwtService.generateAccessToken(new PersonDetails(person));
-        var refreshToken = jwtService.generateRefreshToken(new PersonDetails(person));
+        var access = jwtService.generateAccessToken(new PersonDetails(person));
+        var refresh = jwtService.generateRefreshToken(new PersonDetails(person));
 
-        return response(Status.SUCCESS, Constants.REGISTRATION_SUCCESS, accessToken, refreshToken, person);
+        return response(Constants.REGISTRATION_SUCCESS, access, refresh, person);
+    }
+
+    public ResponseEntity<ResponseWrapper> authenticate(PersonAuthReqst request,
+        BindingResult bindingResult) {
+
+        validateResults(bindingResult);
+        var person = extractEntityFromDB(request);
+
+        authenticate(request.getUsername(), request.getPassword());
+
+        var access = jwtService.generateAccessToken(new PersonDetails(person));
+        var refresh = jwtService.generateRefreshToken(new PersonDetails(person));
+
+        return response(Constants.AUTHENTICATION_SUCCESS, access, refresh, person);
+    }
+
+    private void authenticate(String username, String password) {
+        try {
+            authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, password));
+        } catch (AuthenticationException e) {
+            throw new NotAuthenticateException(NOT_AUTHENTICATE);
+        }
+    }
+
+    private void validate(PersonRegisterReqst request, BindingResult bindingResult) {
+        usernameValidation.validate(request, bindingResult);
+        emailValidation.validate(request, bindingResult);
+        passwordConfirmationValidation.validate(request, bindingResult);
+        validateResults(bindingResult);
     }
 
     private Person createEntityByRequest(PersonRegisterReqst request) {
@@ -85,10 +120,16 @@ public class AuthService {
             .password(passwordEncoder.encode(request.getPassword())).role(Role.USER).build();
     }
 
-    private ResponseEntity<ResponseWrapper> response(Status status, String message, String access,
+    private Person extractEntityFromDB(PersonAuthReqst request) {
+        return peopleDBService.getByUsername(request.getUsername()).orElseThrow(
+            () -> new NotFoundException(
+                "user with username '" + request.getUsername() + "' not found"));
+    }
+
+    private ResponseEntity<ResponseWrapper> response(String message, String access,
         String refresh, Person person) {
         return ResponseEntity.ok(
-            ResponseWrapper.builder().status(status).message(message).time(LocalDateTime.now())
+            ResponseWrapper.builder().status(Status.SUCCESS).message(message).time(LocalDateTime.now())
                 .payload(
                     List.of(TokensPayloadResp.builder()
                         .access(
@@ -107,19 +148,16 @@ public class AuthService {
     }
 
     private LocalDateTime extractExpDateFromToken(String token) {
-        return toLocalDateTime(jwtService.extractExpirationDateFromToken(token));
+        try {
+            return toLocalDateTime(jwtService.extractExpirationDateFromToken(token));
+        } catch (JWTDecodeException e) {
+            throw new TokenNotValidException(e.getMessage());
+        }
     }
 
     private LocalDateTime toLocalDateTime(Date date) {
         Instant instant = date.toInstant();
         return instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
-    }
-
-    private void validate(PersonRegisterReqst request, BindingResult bindingResult) {
-        usernameValidation.validate(request, bindingResult);
-        emailValidation.validate(request, bindingResult);
-        passwordConfirmationValidation.validate(request, bindingResult);
-        validateResults(bindingResult);
     }
 
     private void validateResults(BindingResult bindingResult) {
@@ -153,25 +191,6 @@ public class AuthService {
 
         log.info("ALL GOOD -> STARTING GENERATING ACCESS TOKEN");
         var accessToken = jwtService.generateAccessToken(userDetails);
-
-        return ResponseEntity.ok(null);
-    }
-
-
-    public ResponseEntity<ResponseWrapper> authenticate(PersonAuthReqst reqst,
-        BindingResult bindingResult) {
-
-        validateResults(bindingResult);
-
-        var person = peopleDBService.getByUsername(reqst.getUsername()).orElseThrow(
-            () -> new NotFoundException(
-                "user with username '" + reqst.getUsername() + "' not found"));
-
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(reqst.getUsername(), reqst.getPassword()));
-
-        var accessToken = jwtService.generateAccessToken(new PersonDetails(person));
-        var refreshToken = jwtService.generateRefreshToken(new PersonDetails(person));
 
         return ResponseEntity.ok(null);
     }

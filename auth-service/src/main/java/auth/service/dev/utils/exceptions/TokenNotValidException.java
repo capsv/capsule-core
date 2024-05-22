@@ -1,4 +1,11 @@
 package auth.service.dev.utils.exceptions;
 
-public class TokenNotValidException extends RuntimeException{
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+public class TokenNotValidException extends RuntimeException {
+
+    public TokenNotValidException(String message) {
+        super(message);
+    }
 }
