@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class FieldError extends CommonDTO {
+public class CustomFieldError extends CommonDTO {
 
     private String field;
 

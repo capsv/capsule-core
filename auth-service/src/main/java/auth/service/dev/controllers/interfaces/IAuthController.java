@@ -5,7 +5,7 @@ import auth.service.dev.dtos.requests.PersonRegisterReqst;
 import auth.service.dev.dtos.requests.RefreshTokenReqst;
 import auth.service.dev.dtos.requests.TokenReqst;
 import auth.service.dev.dtos.responses.entities.Credentials;
-import auth.service.dev.dtos.responses.tokens.RespWrapper;
+import auth.service.dev.dtos.responses.tokens.ResponseWrapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -25,9 +25,9 @@ public interface IAuthController {
     @Operation(summary = "Registration")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "User was register", content = {
-            @Content(mediaType = "application/json", schema = @Schema(implementation = RespWrapper.class))}),
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ResponseWrapper.class))}),
         @ApiResponse(responseCode = "400", description = "Bad request")})
-    ResponseEntity<RespWrapper> register(@RequestBody @Valid PersonRegisterReqst reqst,
+    ResponseEntity<ResponseWrapper> register(@RequestBody @Valid PersonRegisterReqst reqst,
         BindingResult bindingResult);
 
     @PostMapping("/token/authenticate")
@@ -35,7 +35,7 @@ public interface IAuthController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Authentication successful"),
         @ApiResponse(responseCode = "400", description = "Bad request (Token is not valid)"),})
-    ResponseEntity<RespWrapper> authenticateByRefreshToken(@RequestBody RefreshTokenReqst reqst);
+    ResponseEntity<ResponseWrapper> authenticateByRefreshToken(@RequestBody RefreshTokenReqst reqst);
 
     @PostMapping("/authenticate")
     @Operation(summary = "Authentication by login and password")
@@ -43,7 +43,7 @@ public interface IAuthController {
         @ApiResponse(responseCode = "200", description = "Authentication successful"),
         @ApiResponse(responseCode = "400", description = "Bad request"),
         @ApiResponse(responseCode = "404", description = "Not found")})
-    ResponseEntity<RespWrapper> authenticate(@RequestBody @Valid PersonAuthReqst reqst,
+    ResponseEntity<ResponseWrapper> authenticate(@RequestBody @Valid PersonAuthReqst reqst,
         BindingResult bindingResult);
 
     @PostMapping("/validate")

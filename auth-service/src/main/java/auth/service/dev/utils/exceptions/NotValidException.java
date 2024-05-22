@@ -1,6 +1,6 @@
 package auth.service.dev.utils.exceptions;
 
-import auth.service.dev.dtos.responses.errors.FieldError;
+import auth.service.dev.dtos.responses.errors.CustomFieldError;
 import lombok.Getter;
 
 import java.util.List;
@@ -8,9 +8,9 @@ import java.util.List;
 @Getter
 public class NotValidException extends RuntimeException{
 
-    private final List<FieldError> errors;
+    private final List<CustomFieldError> errors;
 
-    public NotValidException(List<FieldError> errors){
+    public NotValidException(List<CustomFieldError> errors){
         this.errors=errors;
     }
 }

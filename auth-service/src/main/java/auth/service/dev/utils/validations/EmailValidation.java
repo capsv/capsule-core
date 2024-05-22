@@ -9,7 +9,7 @@ import org.springframework.validation.Validator;
 
 @Component
 @RequiredArgsConstructor
-public class PersonUsernameValidation implements Validator {
+public class EmailValidation implements Validator {
 
     private final PeopleDBService peopleDBService;
 
@@ -20,9 +20,11 @@ public class PersonUsernameValidation implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        PersonRegisterReqst person=(PersonRegisterReqst) target;
+        PersonRegisterReqst person = (PersonRegisterReqst) target;
 
-        if(peopleDBService.getByUsername(person.getUsername()).isPresent())
-            errors.rejectValue("username","","should be unique");
+        if (peopleDBService.getByEmail(person.getEmail()).isPresent()) {
+            errors.rejectValue("email", "", "should be unique");
+        }
+
     }
 }

@@ -16,7 +16,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RespWrapper {
+public class ResponseWrapper {
 
     private Status status;
 

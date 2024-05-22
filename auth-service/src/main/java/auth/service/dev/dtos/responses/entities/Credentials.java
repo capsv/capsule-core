@@ -14,4 +14,6 @@ import lombok.Setter;
 public class Credentials {
 
     private String username;
+
+    //TODO authorities
 }

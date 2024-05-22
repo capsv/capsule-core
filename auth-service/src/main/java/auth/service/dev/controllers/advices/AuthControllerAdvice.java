@@ -1,7 +1,7 @@
 package auth.service.dev.controllers.advices;
 
 import auth.service.dev.common.Status;
-import auth.service.dev.dtos.responses.tokens.RespWrapper;
+import auth.service.dev.dtos.responses.tokens.ResponseWrapper;
 import auth.service.dev.dtos.responses.errors.UserError;
 import auth.service.dev.utils.exceptions.NotFoundException;
 import auth.service.dev.utils.exceptions.NotValidException;
@@ -19,10 +19,10 @@ import java.util.List;
 public class AuthControllerAdvice {
 
     @ExceptionHandler(NotValidException.class)
-    private ResponseEntity<RespWrapper> handleException(NotValidException e){
+    private ResponseEntity<ResponseWrapper> handleException(NotValidException e){
         return ResponseEntity.badRequest()
                 .body(
-                  RespWrapper.builder()
+                  ResponseWrapper.builder()
                           .status(Status.ERROR)
                           .time(LocalDateTime.now())
                           .message("Not valid field(s)")
@@ -32,9 +32,9 @@ public class AuthControllerAdvice {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    private ResponseEntity<RespWrapper> handleException(NotFoundException e){
+    private ResponseEntity<ResponseWrapper> handleException(NotFoundException e){
         return new ResponseEntity<>(
-                RespWrapper.builder()
+                ResponseWrapper.builder()
                         .status(Status.ERROR)
                         .time(LocalDateTime.now())
                         .message("Not found user")
@@ -45,9 +45,9 @@ public class AuthControllerAdvice {
     }
 
     @ExceptionHandler(TokenNotValidException.class)
-    private ResponseEntity<RespWrapper> handleException(TokenNotValidException e){
+    private ResponseEntity<ResponseWrapper> handleException(TokenNotValidException e){
         return ResponseEntity.badRequest().body(
-                RespWrapper.builder()
+                ResponseWrapper.builder()
                         .status(Status.NOT_VALID)
                         .time(LocalDateTime.now())
                         .message("Token is not valid ")
