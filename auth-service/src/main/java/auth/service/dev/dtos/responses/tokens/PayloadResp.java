@@ -12,9 +12,11 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class NakedPersonDTO extends CommonDTO {
+public class PayloadResp extends CommonDTO {
 
-    private String username;
+    private Token access;
 
-    //TODO authorities
+    private Token refresh;
+
+    private NakedPersonDTO data;
 }
