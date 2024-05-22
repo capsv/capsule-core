@@ -89,7 +89,7 @@ public class AuthService {
         BindingResult bindingResult) {
 
         validateResults(bindingResult);
-        var person = extractEntityFromDB(request);
+        var person = extractEntityFromDB(request.getUsername());
 
         authenticate(request.getUsername(), request.getPassword());
 
@@ -97,6 +97,37 @@ public class AuthService {
         var refresh = jwtService.generateRefreshToken(new PersonDetails(person));
 
         return response(Constants.AUTHENTICATION_SUCCESS, access, refresh, person);
+    }
+
+    public ResponseEntity<ResponseWrapper> authenticateByRefreshToken(RefreshTokenReqst request) {
+
+        String refresh = request.getToken();
+
+        if (!isTokenValid(refresh)) {
+            throw new TokenNotValidException();
+        }
+
+        String username = jwtService.extractUsername(refresh);
+        var person = extractEntityFromDB(username);
+        var access = jwtService.generateAccessToken(new PersonDetails(person));
+
+        return response(Constants.AUTHENTICATION_SUCCESS, access, refresh, person);
+    }
+
+    public ResponseEntity<Boolean> validateToken(TokenReqst token) {
+        boolean isValid = isTokenValid(token.getToken());
+        return ResponseEntity.ok(isValid);
+    }
+
+    public ResponseEntity<Credentials> validateToken(String token) {
+        boolean isValid = isTokenValid(token);
+        return isValid ? ResponseEntity.ok()
+            .body(Credentials.builder().username(jwtService.extractUsername(token)).build())
+            : ResponseEntity.ok(Credentials.builder().build());
+    }
+
+    private boolean isTokenValid(String token) {
+        return jwtService.validateJwt(token);
     }
 
     private void authenticate(String username, String password) {
@@ -120,10 +151,10 @@ public class AuthService {
             .password(passwordEncoder.encode(request.getPassword())).role(Role.USER).build();
     }
 
-    private Person extractEntityFromDB(PersonAuthReqst request) {
-        return peopleDBService.getByUsername(request.getUsername()).orElseThrow(
+    private Person extractEntityFromDB(String username) {
+        return peopleDBService.getByUsername(username).orElseThrow(
             () -> new NotFoundException(
-                "user with username '" + request.getUsername() + "' not found"));
+                "user with username '" + username + "' not found"));
     }
 
     private ResponseEntity<ResponseWrapper> response(String message, String access,
@@ -171,41 +202,4 @@ public class AuthService {
             throw new NotValidException(errors);
         }
     }
-
-    public ResponseEntity<ResponseWrapper> authenticateByRefreshToken(RefreshTokenReqst reqst) {
-
-        String refreshToken = reqst.getToken();
-
-        if (!jwtService.validateJwt(refreshToken)) {
-            log.info("TOKEN IS NOT VALID");
-            throw new TokenNotValidException();
-        }
-
-        String username = jwtService.extractUsername(refreshToken);
-        UserDetails userDetails = personDetailsService.loadUserByUsername(username);
-        var person = peopleDBService.getByUsername(username).orElseThrow(
-            () -> new NotFoundException("user with username: " + username + " not found"));
-
-        PersonDetails personDetails = (PersonDetails) userDetails;
-        log.info("AUTHENTICATE BY REFRESH TOKEN: {}", personDetails.toString());
-
-        log.info("ALL GOOD -> STARTING GENERATING ACCESS TOKEN");
-        var accessToken = jwtService.generateAccessToken(userDetails);
-
-        return ResponseEntity.ok(null);
-    }
-
-    public ResponseEntity<Boolean> validateToken(TokenReqst token) {
-        boolean isValid = jwtService.validateJwt(token.getToken());
-        log.info(isValid ? "VALID" : "INVALID");
-        return ResponseEntity.ok(isValid);
-    }
-
-    public ResponseEntity<Credentials> validateToken(String token) {
-        boolean isValid = jwtService.validateJwt(token);
-        return isValid ? ResponseEntity.ok()
-            .body(Credentials.builder().username(jwtService.extractUsername(token)).build())
-            : ResponseEntity.ok(Credentials.builder().build());
-    }
-
 }
