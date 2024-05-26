@@ -1,6 +1,11 @@
 package auth.service.dev.controllers.advices;
 
-import auth.service.dev.common.Constants;
+import static auth.service.dev.common.Constants.AUTHENTICATION_FAILURE_MESSAGE;
+import static auth.service.dev.common.Constants.INTERNAL_SERVER_ERROR_MESSAGE;
+import static auth.service.dev.common.Constants.NOT_FOUND_MESSAGE;
+import static auth.service.dev.common.Constants.NOT_VALID_FIELDS_MESSAGE;
+import static auth.service.dev.common.Constants.NOT_VALID_MESSAGE;
+
 import auth.service.dev.common.Status;
 import auth.service.dev.dtos.CommonDTO;
 import auth.service.dev.dtos.responses.errors.UserError;
@@ -20,9 +25,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class AuthControllerAdvice {
 
-    private static final String NOT_VALID_FIELDS_MESSAGE = "not valid field(s)";
-    private static final String NOT_FOUND_MESSAGE = "subject not found";
-
     @ExceptionHandler(NotValidException.class)
     private ResponseEntity<ResponseWrapper> handleException(NotValidException e) {
         return response(HttpStatus.BAD_REQUEST, Status.BAD_REQUEST, NOT_VALID_FIELDS_MESSAGE,
@@ -37,22 +39,20 @@ public class AuthControllerAdvice {
 
     @ExceptionHandler(TokenNotValidException.class)
     private ResponseEntity<ResponseWrapper> handleException(TokenNotValidException e) {
-        return ResponseEntity.badRequest().body(
-            ResponseWrapper.builder().status(Status.NOT_VALID).time(LocalDateTime.now())
-                .message("Token is not valid ").payload(Collections.emptyList()).build());
+        return response(HttpStatus.BAD_REQUEST, Status.NOT_VALID, NOT_VALID_MESSAGE,
+            Collections.emptyList());
     }
 
     @ExceptionHandler(NotAuthenticateException.class)
     private ResponseEntity<ResponseWrapper> handleException(NotAuthenticateException e) {
-        return ResponseEntity.badRequest().body(
-            ResponseWrapper.builder().status(Status.ERROR).time(LocalDateTime.now())
-                .message(Constants.AUTHENTICATION_FAILURE)
-                .payload(List.of(new UserError(e.getMessage()))).build());
+        return response(HttpStatus.BAD_REQUEST, Status.NOT_AUTHENTICATED,
+            AUTHENTICATION_FAILURE_MESSAGE, List.of(new UserError(e.getMessage())));
     }
 
     @ExceptionHandler(RuntimeException.class)
     private ResponseEntity<ResponseWrapper> handleException(RuntimeException e) {
-        return ResponseEntity.badRequest().body();
+        return response(HttpStatus.INTERNAL_SERVER_ERROR, Status.INTERNAL_SERVER_ERROR,
+            INTERNAL_SERVER_ERROR_MESSAGE, Collections.emptyList());
     }
 
     private ResponseEntity<ResponseWrapper> response(HttpStatus code, Status status, String message,

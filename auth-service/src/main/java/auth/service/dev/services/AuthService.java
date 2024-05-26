@@ -75,7 +75,7 @@ public class AuthService {
         var access = jwtService.generateAccessToken(new PersonDetails(person));
         var refresh = jwtService.generateRefreshToken(new PersonDetails(person));
 
-        return response(Constants.REGISTRATION_SUCCESS, access, refresh, person);
+        return response(Constants.REGISTRATION_SUCCESS_MESSAGE, access, refresh, person);
     }
 
     public ResponseEntity<ResponseWrapper> authenticate(PersonAuthReqst request,
@@ -89,7 +89,7 @@ public class AuthService {
         var access = jwtService.generateAccessToken(new PersonDetails(person));
         var refresh = jwtService.generateRefreshToken(new PersonDetails(person));
 
-        return response(Constants.AUTHENTICATION_SUCCESS, access, refresh, person);
+        return response(Constants.AUTHENTICATION_SUCCESS_MESSAGE, access, refresh, person);
     }
 
     public ResponseEntity<ResponseWrapper> authenticateByRefreshToken(RefreshTokenReqst request) {
@@ -104,7 +104,7 @@ public class AuthService {
         var person = extractEntityFromDB(username);
         var access = jwtService.generateAccessToken(new PersonDetails(person));
 
-        return response(Constants.AUTHENTICATION_SUCCESS, access, refresh, person);
+        return response(Constants.AUTHENTICATION_SUCCESS_MESSAGE, access, refresh, person);
     }
 
     public ResponseEntity<Boolean> validateToken(TokenReqst token) {
