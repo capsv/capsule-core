@@ -20,19 +20,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class AuthControllerAdvice {
 
-    private static final String NOT_VALID_FIELDS_MESSAGE = "Not valid field(s)";
+    private static final String NOT_VALID_FIELDS_MESSAGE = "not valid field(s)";
+    private static final String NOT_FOUND_MESSAGE = "subject not found";
 
     @ExceptionHandler(NotValidException.class)
     private ResponseEntity<ResponseWrapper> handleException(NotValidException e) {
-        return response(HttpStatus.BAD_REQUEST, Status.BAD_REQUEST, NOT_VALID_FIELDS_MESSAGE, e.getErrors());
+        return response(HttpStatus.BAD_REQUEST, Status.BAD_REQUEST, NOT_VALID_FIELDS_MESSAGE,
+            e.getErrors());
     }
 
     @ExceptionHandler(NotFoundException.class)
     private ResponseEntity<ResponseWrapper> handleException(NotFoundException e) {
-        return new ResponseEntity<>(
-            ResponseWrapper.builder().status(Status.ERROR).time(LocalDateTime.now())
-                .message("Not found user").payload(List.of(new UserError(e.getMessage()))).build(),
-            HttpStatus.NOT_FOUND);
+        return response(HttpStatus.NOT_FOUND, Status.NOT_FOUND, NOT_FOUND_MESSAGE,
+            List.of(new UserError(e.getMessage())));
     }
 
     @ExceptionHandler(TokenNotValidException.class)

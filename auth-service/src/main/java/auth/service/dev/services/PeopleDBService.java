@@ -1,6 +1,5 @@
 package auth.service.dev.services;
 
-
 import auth.service.dev.models.Person;
 import auth.service.dev.repositories.PeopleRepository;
 import java.util.Optional;
