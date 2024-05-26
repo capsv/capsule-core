@@ -15,7 +15,6 @@ import auth.service.dev.dtos.responses.tokens.TokensPayloadResp;
 import auth.service.dev.models.Person;
 import auth.service.dev.security.JwtService;
 import auth.service.dev.security.PersonDetails;
-import auth.service.dev.security.PersonDetailsService;
 import auth.service.dev.utils.exceptions.NotAuthenticateException;
 import auth.service.dev.utils.exceptions.NotFoundException;
 import auth.service.dev.utils.exceptions.NotValidException;
@@ -30,22 +29,19 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 @Service
-@Slf4j
 public class AuthService {
 
-    private static final String NOT_AUTHENTICATE = """
+    private static final String NOT_AUTHENTICATE_MESSAGE = """
         some problem with authentication (check username or password)""";
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
@@ -54,13 +50,11 @@ public class AuthService {
     private final UsernameValidation usernameValidation;
     private final EmailValidation emailValidation;
     private final PasswordConfirmationValidation passwordConfirmationValidation;
-    private final PersonDetailsService personDetailsService;
 
     public AuthService(JwtService jwtService, PasswordEncoder passwordEncoder,
         AuthenticationManager authenticationManager, PeopleDBService peopleDBService,
         UsernameValidation usernameValidation, EmailValidation emailValidation,
-        PasswordConfirmationValidation passwordConfirmationValidation,
-        PersonDetailsService personDetailsService) {
+        PasswordConfirmationValidation passwordConfirmationValidation) {
         this.jwtService = jwtService;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
@@ -68,7 +62,6 @@ public class AuthService {
         this.usernameValidation = usernameValidation;
         this.emailValidation = emailValidation;
         this.passwordConfirmationValidation = passwordConfirmationValidation;
-        this.personDetailsService = personDetailsService;
     }
 
     public ResponseEntity<ResponseWrapper> register(PersonRegisterReqst request,
@@ -135,7 +128,7 @@ public class AuthService {
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(username, password));
         } catch (AuthenticationException e) {
-            throw new NotAuthenticateException(NOT_AUTHENTICATE);
+            throw new NotAuthenticateException(NOT_AUTHENTICATE_MESSAGE);
         }
     }
 

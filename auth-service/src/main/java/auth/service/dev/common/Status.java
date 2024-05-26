@@ -5,5 +5,5 @@ import lombok.Getter;
 @Getter
 public enum Status {
 
-    SUCCESS, ERROR, NOT_VALID
+    SUCCESS, AUTHENTICATED, BAD_REQUEST, NOT_VALID, NOT_AUTHENTICATED;
 }

@@ -2,6 +2,7 @@ package auth.service.dev.controllers.advices;
 
 import auth.service.dev.common.Constants;
 import auth.service.dev.common.Status;
+import auth.service.dev.dtos.CommonDTO;
 import auth.service.dev.dtos.responses.errors.UserError;
 import auth.service.dev.dtos.responses.tokens.ResponseWrapper;
 import auth.service.dev.utils.exceptions.NotAuthenticateException;
@@ -19,11 +20,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class AuthControllerAdvice {
 
+    private static final String NOT_VALID_FIELDS_MESSAGE = "Not valid field(s)";
+
     @ExceptionHandler(NotValidException.class)
     private ResponseEntity<ResponseWrapper> handleException(NotValidException e) {
-        return ResponseEntity.badRequest().body(
-            ResponseWrapper.builder().status(Status.ERROR).time(LocalDateTime.now())
-                .message("Not valid field(s)").payload(e.getErrors()).build());
+        return response(HttpStatus.BAD_REQUEST, Status.BAD_REQUEST, NOT_VALID_FIELDS_MESSAGE, e.getErrors());
     }
 
     @ExceptionHandler(NotFoundException.class)
@@ -47,5 +48,17 @@ public class AuthControllerAdvice {
             ResponseWrapper.builder().status(Status.ERROR).time(LocalDateTime.now())
                 .message(Constants.AUTHENTICATION_FAILURE)
                 .payload(List.of(new UserError(e.getMessage()))).build());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    private ResponseEntity<ResponseWrapper> handleException(RuntimeException e) {
+        return ResponseEntity.badRequest().body();
+    }
+
+    private ResponseEntity<ResponseWrapper> response(HttpStatus code, Status status, String message,
+        List<? extends CommonDTO> errors) {
+        return new ResponseEntity<>(
+            ResponseWrapper.builder().status(status).message(message).time(LocalDateTime.now())
+                .payload(errors).build(), code);
     }
 }
