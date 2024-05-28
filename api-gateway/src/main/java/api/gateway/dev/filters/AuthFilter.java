@@ -54,7 +54,7 @@ public class AuthFilter extends AbstractGatewayFilterFactory<AuthFilter.Config> 
 
     private Mono<Credentials> isJwtValid(String token) {
         String jwt = token.substring(7);
-        return webClientBuilder.build().get().uri("lb://auth-service/auth/api/v1.0/validate")
+        return webClientBuilder.build().get().uri("lb://auth-service/api/v1/auth/validate")
             .header("Authorization", jwt).retrieve().bodyToMono(Credentials.class);
     }
 

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("auth/api/v1.0")
+@RequestMapping("api/v1/auth")
 @Tag(name = "Auth-Controller",description = "Auth API")
 public class AuthController extends ImplAuthController {
 
@@ -15,4 +15,3 @@ public class AuthController extends ImplAuthController {
         super(authService);
     }
 }
-

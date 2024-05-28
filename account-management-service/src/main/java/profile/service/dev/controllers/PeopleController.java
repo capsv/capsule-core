@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import profile.service.dev.services.producers.KafkaProfileProducer;
 
 @RestController
-@RequestMapping("profile/v1.0/api")
+@RequestMapping("api/v1/users")
 public class PeopleController {
 
     private final KafkaProfileProducer kafkaProfileProducer;
