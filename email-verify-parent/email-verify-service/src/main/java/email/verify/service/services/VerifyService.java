@@ -18,6 +18,7 @@ public class VerifyService {
         validate(bindingResult);
 
 
+
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
