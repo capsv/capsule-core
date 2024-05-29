@@ -10,13 +10,22 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>email-verify-send-service</artifactId>
+    <artifactId>email-verify-sender-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>email-verify-send-service</name>
+    <name>email-verify-sender-service</name>
     <description>email-verify-send-service</description>
 
     <properties>
         <java.version>17</java.version>
     </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>

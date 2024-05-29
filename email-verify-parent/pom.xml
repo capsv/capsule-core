@@ -15,7 +15,7 @@
 
 	<modules>
 		<module>email-verify-service</module>
-		<module>email-verify-send-service</module>
+		<module>email-verify-sender-service</module>
 	</modules>
 
 	<properties>

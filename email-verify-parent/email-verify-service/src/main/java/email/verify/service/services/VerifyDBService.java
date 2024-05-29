@@ -14,7 +14,7 @@ public class VerifyDBService {
     private final VerifyRepository verifyRepository;
 
     @Transactional(readOnly = false)
-    public void createVerify(Verify verify) {
+    public void save(Verify verify) {
         verifyRepository.save(verify);
     }
 }

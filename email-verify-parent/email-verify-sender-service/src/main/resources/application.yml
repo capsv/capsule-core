@@ -9,3 +9,6 @@ eureka:
 spring:
   application:
     name: email-verify-send-service
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}

@@ -29,3 +29,6 @@ spring:
     change-log: classpath:/db/changelog/changelog.yml
     liquibase-schema: liquibase
     default-schema: verify
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}
