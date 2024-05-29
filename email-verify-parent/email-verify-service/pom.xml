@@ -17,6 +17,22 @@
 
     <properties>
         <java.version>17</java.version>
+        <liquibase.version>4.28.0</liquibase.version>
+        <pre.liquibase.version>1.5.0</pre.liquibase.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.lbruun.springboot</groupId>
+            <artifactId>preliquibase-spring-boot-starter</artifactId>
+            <version>${pre.liquibase.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

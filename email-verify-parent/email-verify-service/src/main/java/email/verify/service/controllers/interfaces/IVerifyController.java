@@ -2,6 +2,8 @@ package email.verify.service.controllers.interfaces;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 public interface IVerifyController {
 
@@ -11,7 +13,9 @@ public interface IVerifyController {
      * email. Чтобы узнать куда отправлять он должен обратиться к @account-management-service за
      * почтой пользователя
      */
-    ResponseEntity<HttpStatusCode> get();
+    @PostMapping()
+    ResponseEntity<HttpStatusCode> post(@RequestParam("username") String username,
+        @RequestParam("email") String email);
 
     /**
      * Метод сравнивает код, который пришел от пользователя, с кодом в бд для этого пользователя,

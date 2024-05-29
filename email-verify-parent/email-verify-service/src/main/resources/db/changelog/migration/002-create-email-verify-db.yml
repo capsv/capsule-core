@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-email-verify-db
+      author: trapper
+      changes:
+        - sqlFile:
+            path: migration/sql/002-create-email-verify-db.sql
+            relativeToChangelogFile: true

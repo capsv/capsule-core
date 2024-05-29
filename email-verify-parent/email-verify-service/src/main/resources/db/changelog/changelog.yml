@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: migration/001-create-schemas.yml
+      relativeToChangelogFile: true
+  - include:
+      file: migration/002-create-email-verify-db.yml
+      relativeToChangelogFile: true
