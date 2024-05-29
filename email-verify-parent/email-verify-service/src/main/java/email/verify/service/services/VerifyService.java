@@ -2,9 +2,10 @@ package email.verify.service.services;
 
 import email.verify.service.dtos.errors.WrongField;
 import email.verify.service.dtos.requests.UserInfoReqst;
-import email.verify.service.utils.NotValidException;
+import email.verify.service.utils.exceptions.NotValidException;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 @Service
+@RequiredArgsConstructor
 public class VerifyService {
+
+    private final VerifyDBService verifyDBService;
 
     public ResponseEntity<HttpStatus> verify(UserInfoReqst info, BindingResult bindingResult) {
         validate(bindingResult);

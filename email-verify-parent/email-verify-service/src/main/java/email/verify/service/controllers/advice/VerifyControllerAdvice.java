@@ -4,7 +4,7 @@ import email.verify.service.configs.Message;
 import email.verify.service.dtos.CommonDTO;
 import email.verify.service.dtos.RespWrapper;
 import email.verify.service.dtos.errors.SomeErrorMessage;
-import email.verify.service.utils.NotValidException;
+import email.verify.service.utils.exceptions.NotValidException;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

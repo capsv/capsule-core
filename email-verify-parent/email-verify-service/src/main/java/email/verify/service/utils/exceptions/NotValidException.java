@@ -1,4 +1,4 @@
-package email.verify.service.utils;
+package email.verify.service.utils.exceptions;
 
 import email.verify.service.dtos.CommonDTO;
 import java.util.List;
