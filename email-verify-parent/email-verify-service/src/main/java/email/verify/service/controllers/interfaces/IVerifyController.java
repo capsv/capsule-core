@@ -1,9 +1,12 @@
 package email.verify.service.controllers.interfaces;
 
-import org.springframework.http.HttpStatusCode;
+import email.verify.service.dtos.requests.UserInfoReqst;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 public interface IVerifyController {
 
@@ -14,12 +17,12 @@ public interface IVerifyController {
      * почтой пользователя
      */
     @PostMapping()
-    ResponseEntity<HttpStatusCode> post(@RequestParam("username") String username,
-        @RequestParam("email") String email);
+    ResponseEntity<HttpStatus> post(@RequestBody @Valid UserInfoReqst info,
+        BindingResult bindingResult);
 
     /**
      * Метод сравнивает код, который пришел от пользователя, с кодом в бд для этого пользователя,
      * если они совпадают сервис подтверждает верификацию
      */
-    ResponseEntity<HttpStatusCode> verify();
+    ResponseEntity<HttpStatus> verify();
 }
