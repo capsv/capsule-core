@@ -12,13 +12,11 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class VerifyProducer {
-
-    private static final String TOPIC = "email-verification-topic";
     private static final Logger LOGGER = LoggerFactory.getLogger(VerifyProducer.class);
     private final KafkaTemplate<String, Verify> kafkaTemplate;
 
-    public void produce(Verify verify) {
-        CompletableFuture<SendResult<String, Verify>> future = kafkaTemplate.send(TOPIC, verify);
+    public void produce(Verify verify, String topic) {
+        CompletableFuture<SendResult<String, Verify>> future = kafkaTemplate.send(topic, verify);
         future.thenAccept(result -> {
             LOGGER.info("Sent message=[{}] with offset=[{}]", verify,
                 result.getRecordMetadata().offset());

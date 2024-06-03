@@ -1,0 +1,1 @@
+UPDATE auth.person SET password='$2a$10$z988Ro8Oj9z6AmJZWaipTeB1nj8z5IHem2i1mTtIrVbXV9.XV3DDe' WHERE username='root';

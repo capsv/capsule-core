@@ -1,6 +1,8 @@
 package email.verify.service.services;
 
+import email.verify.service.configs.Constants;
 import email.verify.service.dtos.errors.WrongField;
+import email.verify.service.dtos.requests.CodeConfirmReqst;
 import email.verify.service.dtos.requests.UserInfoReqst;
 import email.verify.service.models.Verify;
 import email.verify.service.services.producers.VerifyProducer;
@@ -23,14 +25,29 @@ public class VerifyService {
     private final CodeGeneratorTool codeGeneratorTool;
     private final VerifyProducer verifyProducer;
 
-    public ResponseEntity<HttpStatus> verify(UserInfoReqst info, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> request(UserInfoReqst info, BindingResult bindingResult) {
         validate(bindingResult);
 
         Verify verify = createEntity(info);
         verifyDBService.save(verify);
-        verifyProducer.produce(verify);
+        verifyProducer.produce(verify, Constants.EMAIL_VERIFY_SENDER_TOPIC);
 
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    public ResponseEntity<HttpStatus> confirm(CodeConfirmReqst codeConfirmReqst,
+        BindingResult bindingResult) {
+        validate(bindingResult);
+
+        String username = codeConfirmReqst.getUsername();
+        Verify verify = verifyDBService.findByUsername(username);
+        if (verify.getCode() == codeConfirmReqst.getCode()) {
+            verifyProducer.produce(verify, Constants.EMAIL_VERIFY_AUTH_TOPIC);
+            verifyDBService.deleteAllByUsername(username);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     private Verify createEntity(UserInfoReqst info) {
@@ -41,7 +58,6 @@ public class VerifyService {
         return Verify.builder().username(username).email(email).code(code).createdAt(createdAt)
             .build();
     }
-
 
     private void validate(BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

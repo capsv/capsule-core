@@ -1,5 +1,6 @@
 package email.verify.service.controllers.interfaces;
 
+import email.verify.service.dtos.requests.CodeConfirmReqst;
 import email.verify.service.dtos.requests.UserInfoReqst;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -12,20 +13,22 @@ public interface IVerifyController {
 
     /**
      * Метод должен принимать запрос на верификацию, генерировать код, сохранять его в бд и
-     * отправлять запрос в кафку к @email-verify-sender-service на отправку этого кода пользователю на
-     * email
+     * отправлять запрос в кафку к @email-verify-sender-service на отправку этого кода пользователю
+     * на email
      *
-     * @param info базовая информация о пользователе его username и email
+     * @param info          базовая информация о пользователе его username и email
      * @param bindingResult базовый интерфейс валидации
      * @return http статус
      */
-    @PostMapping()
-    ResponseEntity<HttpStatus> post(@RequestBody @Valid UserInfoReqst info,
+    @PostMapping(path = "/request")
+    ResponseEntity<HttpStatus> request(@RequestBody @Valid UserInfoReqst info,
         BindingResult bindingResult);
 
     /**
      * Метод сравнивает код, который пришел от пользователя, с кодом в бд для этого пользователя,
      * если они совпадают сервис подтверждает верификацию
      */
-    ResponseEntity<HttpStatus> verify();
+    @PostMapping(path = "/confirm")
+    ResponseEntity<HttpStatus> confirm(@RequestBody @Valid CodeConfirmReqst codeConfirmReqst,
+        BindingResult bindingResult);
 }
