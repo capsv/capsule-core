@@ -12,9 +12,12 @@ public interface IVerifyController {
 
     /**
      * Метод должен принимать запрос на верификацию, генерировать код, сохранять его в бд и
-     * отправлять запрос в кафку к @email-verify-send-service на отправку этого кода пользователю на
-     * email. Чтобы узнать куда отправлять он должен обратиться к @account-management-service за
-     * почтой пользователя
+     * отправлять запрос в кафку к @email-verify-sender-service на отправку этого кода пользователю на
+     * email
+     *
+     * @param info базовая информация о пользователе его username и email
+     * @param bindingResult базовый интерфейс валидации
+     * @return http статус
      */
     @PostMapping()
     ResponseEntity<HttpStatus> post(@RequestBody @Valid UserInfoReqst info,
