@@ -1,6 +1,11 @@
 server:
   port: 8088
 
+logging:
+  level:
+    liquibase: INFO
+
+
 eureka:
   client:
     service-url:
@@ -11,9 +16,9 @@ spring:
     name: email-verify-service
 
   datasource:
-    username: ${POSTGRES_VERIFY_URL}
-    password: ${POSTGRES_VERIFY_PASSWORD}
-    url: ${POSTGRES_VERIFY_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    url: ${POSTGRES_EMAIL_VERIFY_URL}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -32,3 +37,10 @@ spring:
 
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: email-verify-group

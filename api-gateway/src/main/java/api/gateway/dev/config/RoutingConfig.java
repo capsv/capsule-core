@@ -21,6 +21,9 @@ public class RoutingConfig {
             .route("account-management-service", r -> r.path("/profile/**")
                 .filters(f -> f.filter(authFilter.apply(new AuthFilter.Config())))
                 .uri("lb://account-management-service"))
+            .route("email-verify-service", r -> r.path("/api/v1/email/verify/**")
+                .filters(f -> f.filter(authFilter.apply(new AuthFilter.Config())))
+                .uri("lb://email-verify-service"))
             .build();
     }
 }

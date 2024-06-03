@@ -4,6 +4,6 @@ databaseChangeLog:
       author: trapper
       changes:
         - sqlFile:
-            path: migration/sql/001-create-schemas.sql
+            path: migrations/sql/001-create-schemas.sql
             relativeToChangelogFile: true
             splitStatements: true

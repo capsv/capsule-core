@@ -4,5 +4,5 @@ databaseChangeLog:
       author: trapper
       changes:
         - sqlFile:
-            path: migration/sql/002-create-email-verify-db.sql
+            path: migrations/sql/002-create-email-verify-db.sql
             relativeToChangelogFile: true

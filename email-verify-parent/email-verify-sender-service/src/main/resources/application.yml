@@ -12,6 +12,21 @@ spring:
 
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}
+    consumer:
+      group-id: email-verify-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
+      error-handler:
+        deserialization-recoverer:
+          fallback-class: org.springframework.kafka.listener.ConsumerRecordRecoverer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    listener:
+      concurrency: 3
+      missing-topics-fatal: false
 
   mail:
     username: ${SPRING_MAIL_USERNAME}
