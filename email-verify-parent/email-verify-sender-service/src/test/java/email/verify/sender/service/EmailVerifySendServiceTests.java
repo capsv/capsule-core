@@ -1,4 +1,4 @@
-package email.verify.send.service;
+package email.verify.sender.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
