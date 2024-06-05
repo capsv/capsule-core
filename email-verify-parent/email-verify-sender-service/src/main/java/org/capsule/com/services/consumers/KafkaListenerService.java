@@ -19,7 +19,8 @@ public class KafkaListenerService {
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaListenerService.class);
     private final MailSenderService mailSenderService;
 
-    @KafkaListener(topics = "letters-with-code-topic", clientIdPrefix = "json", containerFactory = "kafkaListenerContainerFactory")
+    @KafkaListener(topics = "letters-with-code-topic", clientIdPrefix = "json",
+        containerFactory = "kafkaListenerContainerFactory")
     public void listen(ConsumerRecord<String, Letter> record, @Payload Letter payload) {
         LOGGER.info("Logger 1 [JSON] received key {}: Type [{}] | Payload: {} | Record: {}",
             record.key(), typeIdHeader(record.headers()), payload, record.toString());
