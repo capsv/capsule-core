@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CodeGeneratorTool {
-
+//TODO иногда генерируется не 4 значный код fixed it
     private static final Random RANDOM = new Random();
     private static final int CODE_LENGTH = 4;
 
