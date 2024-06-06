@@ -1,6 +1,11 @@
 server:
   port: 8088
 
+logging:
+  level:
+    liquibase: INFO
+
+
 eureka:
   client:
     service-url:
@@ -9,3 +14,29 @@ eureka:
 spring:
   application:
     name: email-verify-service
+
+  datasource:
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    url: ${POSTGRES_EMAIL_VERIFY_URL}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: false
+        show_sql: false
+        default_schema: verify
+
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/changelog.yml
+    liquibase-schema: liquibase
+    default-schema: verify
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}
+    consumer:
+      group-id: email-verify-group
+      auto-offset-reset: earliest

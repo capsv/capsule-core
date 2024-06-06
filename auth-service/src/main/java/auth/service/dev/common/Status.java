@@ -5,7 +5,5 @@ import lombok.Getter;
 @Getter
 public enum Status {
 
-    SUCCESS,
-    ERROR,
-    NOT_VALID
+    SUCCESS, AUTHENTICATED, BAD_REQUEST, NOT_FOUND, NOT_VALID, NOT_AUTHENTICATED, INTERNAL_SERVER_ERROR;
 }

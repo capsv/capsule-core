@@ -1,6 +1,5 @@
 package auth.service.dev.services.consumers;
 
-import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;

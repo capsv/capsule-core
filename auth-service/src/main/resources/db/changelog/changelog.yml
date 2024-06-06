@@ -8,3 +8,6 @@ databaseChangeLog:
   - include:
       file: migrations/003-create-root-user.yml
       relativeToChangelogFile: true
+  - include:
+      file: migrations/004-change-root-password.yml
+      relativeToChangelogFile: true
