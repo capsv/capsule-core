@@ -1,6 +1,7 @@
 package org.capsule.com.dtos.requests;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,6 @@ public class CodeConfirmReqst {
     @Size(min = 4, max = 56, message = "size should be between 4 and 56")
     private String username;
 
-    @NotBlank(message = "should be not blank")
+    @NotNull(message = "should be not blank")
     private int code;
 }

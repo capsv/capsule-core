@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/v1/email/verify")
 @AllArgsConstructor
-public class ImplVerifyController implements IVerifyController {
+public class VerifyControllerImpl implements IVerifyController {
 
     private final VerifyService verifyService;
 
