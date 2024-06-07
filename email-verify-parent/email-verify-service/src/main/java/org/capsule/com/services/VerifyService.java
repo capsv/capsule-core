@@ -3,6 +3,7 @@ package org.capsule.com.services;
 import org.capsule.com.dtos.errors.WrongField;
 import org.capsule.com.models.Verify;
 import org.capsule.com.services.producers.KafkaJsonProducerService;
+import org.capsule.com.services.producers.KafkaStringProducerService;
 import org.capsule.com.utils.exceptions.NotValidException;
 import org.capsule.com.utils.tools.CodeGeneratorTool;
 import org.capsule.com.configs.Constants;
@@ -24,13 +25,14 @@ public class VerifyService {
     private final VerifyDBService verifyDBService;
     private final CodeGeneratorTool codeGeneratorTool;
     private final KafkaJsonProducerService kafkaJsonProducerService;
+    private final KafkaStringProducerService kafkaStringProducerService;
 
     public ResponseEntity<HttpStatus> request(UserInfoReqst info, BindingResult bindingResult) {
         validate(bindingResult);
 
         Verify verify = createEntity(info);
         verifyDBService.save(verify);
-        kafkaJsonProducerService.produce(verify, Constants.TO_EMAIL_SENDER_TOPIC);
+        kafkaJsonProducerService.produce(verify, Constants.LETTERS_WITH_CODE_TOPIC);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -42,8 +44,8 @@ public class VerifyService {
         String username = codeConfirmReqst.getUsername();
         Verify verify = verifyDBService.findByUsername(username);
         if (verify.getCode() == codeConfirmReqst.getCode()) {
-            kafkaJsonProducerService.produce(verify, Constants.TO_AUTH_TOPIC);
             verifyDBService.deleteAllByUsername(username);
+            kafkaStringProducerService.produce(username, Constants.SUBMIT_VERIFY_STATUS_TOPIC);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

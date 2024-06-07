@@ -11,11 +11,11 @@ import auth.service.dev.services.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
-public abstract class ImplAuthController implements IAuthController {
+public abstract class AuthControllerImpl implements IAuthController {
 
     private final AuthService authService;
 
-    public ImplAuthController(AuthService authService) {
+    public AuthControllerImpl(AuthService authService) {
         this.authService = authService;
     }
 

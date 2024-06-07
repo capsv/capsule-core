@@ -4,6 +4,7 @@ import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
 import org.capsule.com.dtos.kafka.Letter;
 import org.capsule.com.models.Verify;
+import org.capsule.com.utils.exceptions.ProducerException;
 import org.capsule.com.utils.mappers.VerifyMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +25,10 @@ public class KafkaJsonProducerService {
         Letter letter = new Letter(verify.getUsername(), verify.getEmail(), verify.getCode());  //TODO починить маппер
         CompletableFuture<SendResult<String, Object>> future = kafkaJsonTemplate.send(topic, letter);
         future.thenAccept(result -> {
-            LOGGER.info("Sent message=[{}] with offset=[{}]", letter,
-                result.getRecordMetadata().offset());
+            LOGGER.info("Sent message: [{}] to {}", letter, topic);
         }).exceptionally(ex -> {
             LOGGER.error("Unable to send message=[{}] due to : {}", letter, ex.getMessage());
-            return null;
+            throw new ProducerException("some problem occurred while sending message");
         });
     }
 }

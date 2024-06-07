@@ -43,6 +43,9 @@ public class Person extends CommonEntity {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
+    @Column(name = "is_confirm")
+    private boolean isConfirm;
+
     @Override
     public String toString() {
         return "Person{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email
