@@ -165,7 +165,8 @@ public class AuthService {
                                 .exp(extractExpDateFromToken(refresh)).build()
                         )
                         .data(
-                            Credentials.builder().username(person.getUsername()).build()
+                            Credentials.builder().username(person.getUsername())
+                                .confirm(person.isConfirm()).build()
                         ).build()
                     )).build()
         );

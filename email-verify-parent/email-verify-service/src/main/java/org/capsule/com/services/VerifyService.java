@@ -1,5 +1,6 @@
 package org.capsule.com.services;
 
+import org.capsule.com.configs.Message;
 import org.capsule.com.dtos.errors.WrongField;
 import org.capsule.com.models.Verify;
 import org.capsule.com.services.producers.KafkaJsonProducerService;
@@ -32,7 +33,7 @@ public class VerifyService {
 
         Verify verify = createEntity(info);
         verifyDBService.save(verify);
-        kafkaJsonProducerService.produce(verify, Constants.LETTERS_WITH_CODE_TOPIC);
+        kafkaJsonProducerService.produce(Constants.LETTERS_WITH_CODE_TOPIC, verify);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -45,7 +46,7 @@ public class VerifyService {
         Verify verify = verifyDBService.findByUsername(username);
         if (verify.getCode() == codeConfirmReqst.getCode()) {
             verifyDBService.deleteAllByUsername(username);
-            kafkaStringProducerService.produce(username, Constants.SUBMIT_VERIFY_STATUS_TOPIC);
+            kafkaStringProducerService.produce(Constants.SUBMIT_VERIFY_STATUS_TOPIC, username);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -67,7 +68,7 @@ public class VerifyService {
                 error -> WrongField.builder().field(error.getField())
                     .error(error.getDefaultMessage()).build()).collect(Collectors.toList());
 
-            throw new NotValidException(wrongFields);
+            throw new NotValidException(Message.NOT_VALID_FIELDS_MSG, wrongFields);
         }
     }
 }

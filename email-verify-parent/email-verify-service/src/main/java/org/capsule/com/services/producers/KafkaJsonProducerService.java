@@ -16,18 +16,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KafkaJsonProducerService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaJsonProducerService.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(KafkaJsonProducerService.class);
     private final KafkaTemplate<String, Object> kafkaJsonTemplate;
     private final VerifyMapper verifyMapper;
 
-
-    public void produce(Verify verify, String topic) {
+    public void produce(String topic, Verify verify) {
         Letter letter = new Letter(verify.getUsername(), verify.getEmail(), verify.getCode());  //TODO починить маппер
         CompletableFuture<SendResult<String, Object>> future = kafkaJsonTemplate.send(topic, letter);
         future.thenAccept(result -> {
-            LOGGER.info("Sent message: [{}] to {}", letter, topic);
+            LOGGER.info("Sent message: [{}] to [{}]", letter, topic);
         }).exceptionally(ex -> {
-            LOGGER.error("Unable to send message=[{}] due to : {}", letter, ex.getMessage());
+            LOGGER.error("Unable to send message=[{}] due to : [{}]", letter, ex.getMessage());
             throw new ProducerException("some problem occurred while sending message");
         });
     }

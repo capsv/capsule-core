@@ -15,5 +15,7 @@ public class Credentials {
 
     private String username;
 
+    private boolean confirm; //TODO почему isConfirm возвращается в JSON как confirm
+
     //TODO authorities
 }

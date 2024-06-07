@@ -26,4 +26,10 @@ public class PeopleDBService {
     public void save(Person person) {
         peopleRepository.save(person);
     }
+
+    @Transactional(readOnly = false)
+    public void setIsConfirmStatusByUsername(String username) {
+        peopleRepository.setIsConfirmStatusByUsername(username);
+    }
+
 }
