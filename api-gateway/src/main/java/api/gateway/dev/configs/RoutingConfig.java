@@ -1,4 +1,4 @@
-package api.gateway.dev.config;
+package api.gateway.dev.configs;
 
 import api.gateway.dev.filters.AuthFilter;
 import lombok.RequiredArgsConstructor;

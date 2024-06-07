@@ -37,6 +37,9 @@ spring:
 
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}
+    consumer:
+      group-id: confirm-email-group
+      auto-offset-reset: earliest
 
 application:
   security:

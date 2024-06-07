@@ -1,4 +1,4 @@
-package api.gateway.dev.config;
+package api.gateway.dev.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

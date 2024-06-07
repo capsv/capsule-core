@@ -1,4 +1,4 @@
-package org.capsule.com.config;
+package org.capsule.com.configs;
 
 public class Constants {
 

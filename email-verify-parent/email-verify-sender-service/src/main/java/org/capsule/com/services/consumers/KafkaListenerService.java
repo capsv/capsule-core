@@ -2,7 +2,7 @@ package org.capsule.com.services.consumers;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.capsule.com.config.Constants;
+import org.capsule.com.configs.Constants;
 import org.capsule.com.models.Letter;
 import org.capsule.com.services.MailSenderService;
 import org.slf4j.Logger;
