@@ -2,7 +2,7 @@ package org.capsule.com.controllers.advice;
 
 import org.capsule.com.configs.Message;
 import org.capsule.com.dtos.errors.SomeErrorMessage;
-import org.capsule.com.services.producers.KafkaProducerService;
+import org.capsule.com.services.producers.KafkaJsonProducerService;
 import org.capsule.com.utils.exceptions.NotValidException;
 import org.capsule.com.dtos.CommonDTO;
 import org.capsule.com.dtos.RespWrapper;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class VerifyControllerAdvice {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaProducerService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaJsonProducerService.class);
 
     @ExceptionHandler(NotValidException.class)
     private ResponseEntity<RespWrapper> handleException(NotValidException e) {
