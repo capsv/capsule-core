@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-add-verification-status-field
+      author: trapper
+      changes:
+        - sqlFile:
+            path: migrations/sql/005-add-verification-status-field.sql
+            relativeToChangelogFile: true

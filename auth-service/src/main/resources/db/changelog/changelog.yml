@@ -11,3 +11,6 @@ databaseChangeLog:
   - include:
       file: migrations/004-change-root-password.yml
       relativeToChangelogFile: true
+  - include:
+      file: migrations/005-add-verification-status-field.yml
+      relativeToChangelogFile: true
