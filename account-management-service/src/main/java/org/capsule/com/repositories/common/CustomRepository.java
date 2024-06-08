@@ -5,6 +5,6 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.capsule.com.models.common.Entity;
 
 @NoRepositoryBean
-public interface Repository<E extends Entity> extends JpaRepository<E, Long> {
+public interface CustomRepository<E extends Entity> extends JpaRepository<E, Long> {
 
 }
