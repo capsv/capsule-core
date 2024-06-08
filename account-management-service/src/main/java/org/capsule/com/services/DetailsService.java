@@ -22,7 +22,7 @@ public class DetailsService {
     private final Logger LOGGER = LoggerFactory.getLogger(DetailsService.class);
     private final GenerateFirstSecondNameService generateFirstSecondNameService;
     private final DetailsDBService detailsDBService;
-    //private final DetailsMapper detailsMapper;
+    private final DetailsMapper detailsMapper;
 
     public void createNewAccountFromKafka(String username) {
         List<String> words = Arrays.asList(null, null);
@@ -48,8 +48,8 @@ public class DetailsService {
     public ResponseEntity<Wrapper<Data>> get(String username) {
         Details details = detailsDBService.findByUsername(username);
         String message = "data by username";
-      //  detailsMapper.toDTO(details)
-        return response(HttpStatus.OK, message, List.of());
+
+        return response(HttpStatus.OK, message, List.of(detailsMapper.toDTO(details)));
     }
 
     private <E extends CommonDTO> ResponseEntity<Wrapper<E>> response(HttpStatus status,

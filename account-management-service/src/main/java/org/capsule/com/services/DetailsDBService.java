@@ -24,6 +24,7 @@ public class DetailsDBService {
 
     public Details findByUsername(String username) {
         return detailsRepository.findByUsername(username)
-            .orElseThrow(() -> new NotFoundException("there is no data for " + username));
+            .orElseThrow(() -> new NotFoundException("there is no data for " + username, "username",
+                "not found"));
     }
 }

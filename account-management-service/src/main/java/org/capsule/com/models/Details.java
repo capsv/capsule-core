@@ -1,6 +1,7 @@
 package org.capsule.com.models;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,16 +12,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.capsule.com.models.common.Entity;
+import org.capsule.com.models.common.CEntity;
 
-@jakarta.persistence.Entity
+@Entity
 @Table(name = "details")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Details implements Entity {
+public class Details implements CEntity {
 
     @Id
     @Column(name = "details_id")
@@ -47,8 +48,8 @@ public class Details implements Entity {
 
     @Override
     public String toString() {
-        return "Details{username='" + username + "', firstName='"
-            + firstName + "' secondName='" + secondName + "', age=" + age
-            + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + '}';
+        return "Details{username='" + username + "', firstName='" + firstName + "' secondName='"
+            + secondName + "', age=" + age + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+            + '}';
     }
 }

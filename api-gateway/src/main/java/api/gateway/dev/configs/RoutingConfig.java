@@ -18,7 +18,7 @@ public class RoutingConfig {
         return builder.routes()
             .route("auth-service", r -> r.path("/api/v1/auth/**")
                 .uri("lb://auth-service"))
-            .route("account-management-service", r -> r.path("/profile/**")
+            .route("account-management-service", r -> r.path("/api/v1/users/**")
                 .filters(f -> f.filter(authFilter.apply(new AuthFilter.Config())))
                 .uri("lb://account-management-service"))
             .route("email-verify-service", r -> r.path("/api/v1/email/verify/**")

@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 public interface IDetailsController {
 
-    @GetMapping(value = "/{username}", consumes = "application/json", produces = "application/json")
+    @GetMapping(value = "/{username}", produces = "application/json")
     ResponseEntity<Wrapper<Data>> get(@PathVariable("username") String username);
 }
