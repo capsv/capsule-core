@@ -1,7 +1,6 @@
 package profile.service.dev.models;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,20 +11,24 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import profile.service.dev.models.common.Entity;
 
-@Entity
+@jakarta.persistence.Entity
 @Table(name = "details")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Details {
+public class Details implements Entity {
 
     @Id
     @Column(name = "details_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "first_name")
     private String firstName;
@@ -34,20 +37,18 @@ public class Details {
     private String secondName;
 
     @Column(name = "age")
-    private int age;
-
-    @Column(name = "points")
-    private long points;
-
-    @Column(name = "missed_tasks")
-    private long missedTasks;
-
-    @Column(name = "completed_tasks")
-    private long completedTasks;
+    private Integer age;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Override
+    public String toString() {
+        return "Details{username='" + username + "', firstName='"
+            + firstName + "' secondName='" + secondName + "', age=" + age
+            + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + '}';
+    }
 }

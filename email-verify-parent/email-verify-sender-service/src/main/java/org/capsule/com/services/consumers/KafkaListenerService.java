@@ -21,8 +21,8 @@ public class KafkaListenerService {
     @KafkaListener(topics = Constants.LETTERS_WITH_CODE_TOPIC, clientIdPrefix = "json",
         containerFactory = "kafkaListenerContainerFactory")
     public void listen(ConsumerRecord<String, Letter> record, @Payload Letter payload) {
-        LOGGER.info("LOGGER [JSON] received key {}: Payload: {} | Record: {}", record.key(),
-            payload, record.toString());
+        LOGGER.info("KAFKA [email-verify-sender-service] received message [{}] from [{}]",
+            record.value(), record.topic());
         mailSenderService.send(payload.email(), Constants.EMAIL_VERIFICATION_SUBJECT,
             payload.username(), Integer.toString(payload.code()));
     }

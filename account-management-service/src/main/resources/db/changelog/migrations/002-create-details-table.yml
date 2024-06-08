@@ -4,5 +4,5 @@ databaseChangeLog:
       author: trapper
       changes:
         - sqlFile:
-            path: migrations/sql/002-create-info-table.sql
+            path: migrations/sql/002-create-details-table.sql
             relativeToChangelogFile: true

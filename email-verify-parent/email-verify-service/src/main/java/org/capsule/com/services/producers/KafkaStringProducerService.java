@@ -20,8 +20,8 @@ public class KafkaStringProducerService {
         CompletableFuture<SendResult<String, String>> future = kafkaStringTemplate.send(topic,
             message);
         future.thenAccept(result -> {
-            LOGGER.info("Sent message: [{}] to [{}]", result.getProducerRecord().value(),
-                result.getProducerRecord().topic());
+            LOGGER.info("KAFKA [verify-email-service] sent message [{}] to [{}]",
+                result.getProducerRecord().value(), result.getProducerRecord().topic());
         }).exceptionally(ex -> {
             LOGGER.error("Unable to send message: [{}] due to : [{}]", message, ex.getMessage());
             throw new ProducerException("some problem occurred while sending message");

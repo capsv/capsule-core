@@ -24,7 +24,7 @@ public class KafkaJsonProducerService {
         Letter letter = new Letter(verify.getUsername(), verify.getEmail(), verify.getCode());  //TODO починить маппер
         CompletableFuture<SendResult<String, Object>> future = kafkaJsonTemplate.send(topic, letter);
         future.thenAccept(result -> {
-            LOGGER.info("Sent message: [{}] to [{}]", letter, topic);
+            LOGGER.info("KAFKA [email-verify-service] sent message [{}] to [{}]", letter, topic);
         }).exceptionally(ex -> {
             LOGGER.error("Unable to send message=[{}] due to : [{}]", letter, ex.getMessage());
             throw new ProducerException("some problem occurred while sending message");

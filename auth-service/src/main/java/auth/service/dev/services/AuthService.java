@@ -3,6 +3,7 @@ package auth.service.dev.services;
 import auth.service.dev.common.Constants;
 import auth.service.dev.common.Role;
 import auth.service.dev.common.Status;
+import auth.service.dev.configs.Topics;
 import auth.service.dev.dtos.requests.PersonAuthReqst;
 import auth.service.dev.dtos.requests.PersonRegisterReqst;
 import auth.service.dev.dtos.requests.RefreshTokenReqst;
@@ -15,6 +16,7 @@ import auth.service.dev.dtos.responses.tokens.TokensPayloadResp;
 import auth.service.dev.models.Person;
 import auth.service.dev.security.JwtService;
 import auth.service.dev.security.PersonDetails;
+import auth.service.dev.services.producers.KafkaProducerService;
 import auth.service.dev.utils.exceptions.NotAuthenticateException;
 import auth.service.dev.utils.exceptions.NotFoundException;
 import auth.service.dev.utils.exceptions.NotValidException;
@@ -29,6 +31,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,6 +42,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
     private static final String NOT_AUTHENTICATE_MESSAGE = """
@@ -50,19 +54,7 @@ public class AuthService {
     private final UsernameValidation usernameValidation;
     private final EmailValidation emailValidation;
     private final PasswordConfirmationValidation passwordConfirmationValidation;
-
-    public AuthService(JwtService jwtService, PasswordEncoder passwordEncoder,
-        AuthenticationManager authenticationManager, PeopleDBService peopleDBService,
-        UsernameValidation usernameValidation, EmailValidation emailValidation,
-        PasswordConfirmationValidation passwordConfirmationValidation) {
-        this.jwtService = jwtService;
-        this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
-        this.peopleDBService = peopleDBService;
-        this.usernameValidation = usernameValidation;
-        this.emailValidation = emailValidation;
-        this.passwordConfirmationValidation = passwordConfirmationValidation;
-    }
+    private final KafkaProducerService kafkaProducerService;
 
     public ResponseEntity<ResponseWrapper> register(PersonRegisterReqst request,
         BindingResult bindingResult) {
@@ -71,6 +63,7 @@ public class AuthService {
         var person = createEntityByRequest(request);
 
         peopleDBService.save(person);
+        kafkaProducerService.produce(Topics.CREATE_NEW_ACCOUNT_TOPIC, person.getUsername());
 
         var access = jwtService.generateAccessToken(new PersonDetails(person));
         var refresh = jwtService.generateRefreshToken(new PersonDetails(person));

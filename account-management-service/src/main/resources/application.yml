@@ -24,3 +24,6 @@ spring:
 
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}
+    consumer:
+      group-id: create-account-group
+      auto-offset-reset: earliest
