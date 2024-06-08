@@ -1,12 +1,12 @@
-package profile.service.dev.services;
+package org.capsule.com.services;
 
 import lombok.RequiredArgsConstructor;
+import org.capsule.com.models.Details;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import profile.service.dev.models.Details;
-import profile.service.dev.repositories.DetailsRepository;
+import org.capsule.com.repositories.DetailsRepository;
 
 @Service
 @Transactional(readOnly = true)

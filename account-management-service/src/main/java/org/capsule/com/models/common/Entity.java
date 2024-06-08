@@ -1,4 +1,4 @@
-package profile.service.dev.models.common;
+package org.capsule.com.models.common;
 
 import java.io.Serializable;
 

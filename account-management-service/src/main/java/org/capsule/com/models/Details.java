@@ -1,4 +1,4 @@
-package profile.service.dev.models;
+package org.capsule.com.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import profile.service.dev.models.common.Entity;
+import org.capsule.com.models.common.Entity;
 
 @jakarta.persistence.Entity
 @Table(name = "details")

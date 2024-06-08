@@ -1,4 +1,4 @@
-package profile.service.dev.configs;
+package org.capsule.com.configs;
 
 import java.util.HashMap;
 import java.util.Map;

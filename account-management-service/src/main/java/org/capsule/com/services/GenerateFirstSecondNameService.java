@@ -1,4 +1,4 @@
-package profile.service.dev.services;
+package org.capsule.com.services;
 
 import java.util.Arrays;
 import java.util.Collections;

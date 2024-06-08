@@ -1,14 +1,14 @@
-package profile.service.dev.services.consumers;
+package org.capsule.com.services.consumers;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.capsule.com.configs.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
-import profile.service.dev.configs.Constants;
-import profile.service.dev.services.DetailsService;
+import org.capsule.com.services.DetailsService;
 
 @Service
 @RequiredArgsConstructor
