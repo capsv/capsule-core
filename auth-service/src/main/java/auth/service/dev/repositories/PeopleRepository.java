@@ -20,5 +20,11 @@ public interface PeopleRepository extends CommonRepository<Person> {
         UPDATE auth.person SET is_confirm = true WHERE username = :username
         """, nativeQuery = true)
     void setIsConfirmStatusByUsername(@Param("username") String username);
+
+    @Modifying
+    @Query(value = """
+        DELETE FROM auth.person WHERE username = :username
+        """, nativeQuery = true)
+    void deleteByUsername(@Param("username") String username);
 }
 

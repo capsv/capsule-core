@@ -32,4 +32,8 @@ public class PeopleDBService {
         peopleRepository.setIsConfirmStatusByUsername(username);
     }
 
+    @Transactional(readOnly = false)
+    public void deleteByUsername(String username) {
+        peopleRepository.deleteByUsername(username);
+    }
 }

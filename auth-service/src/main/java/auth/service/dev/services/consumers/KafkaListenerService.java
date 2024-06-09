@@ -18,9 +18,21 @@ public class KafkaListenerService {
     private final PeopleDBService peopleDBService;
 
     @KafkaListener(topics = Topics.SUBMIT_VERIFY_STATUS_TOPIC, containerFactory = "kafkaListenerContainerFactory")
-    public void consumer(ConsumerRecord<String, String> record, @Payload String username) {
+    public void consumerSubmitStatusTopic(ConsumerRecord<String, String> record,
+        @Payload String username) {
+        log(record);
+        peopleDBService.setIsConfirmStatusByUsername(username);
+    }
+
+    @KafkaListener(topics = Topics.DELETE_ACCOUNT_TOPIC, containerFactory = "kafkaListenerContainerFactory")
+    public void consumerDeleteAccountTopic(ConsumerRecord<String, String> record,
+        @Payload String username) {
+        log(record);
+        peopleDBService.deleteByUsername(username);
+    }
+
+    private void log(ConsumerRecord<String, String> record) {
         LOGGER.info("KAFKA [auth-service] received message[{}] from [{}]", record.value(),
             record.topic());
-        peopleDBService.setIsConfirmStatusByUsername(username);
     }
 }

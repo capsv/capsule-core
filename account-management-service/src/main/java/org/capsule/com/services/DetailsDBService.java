@@ -27,4 +27,10 @@ public class DetailsDBService {
             .orElseThrow(() -> new NotFoundException("there is no data for " + username, "username",
                 "not found"));
     }
+
+    @Transactional(readOnly = false)
+    public void deleteByUsername(String username) {
+        final Details details = findByUsername(username);
+        detailsRepository.delete(details);
+    }
 }
