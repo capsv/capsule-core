@@ -1,7 +1,6 @@
 package org.capsule.com.controllers.advice;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import org.capsule.com.configs.Constants;
 import org.capsule.com.dtos.Error;
 import org.capsule.com.dtos.Wrapper;
@@ -17,7 +16,8 @@ public class AssaysControllerAdvice {
     @ExceptionHandler(FieldsOfEntityIsNotValidException.class)
     private ResponseEntity<Wrapper<Error>> handleException(FieldsOfEntityIsNotValidException ex) {
         var status = HttpStatus.BAD_REQUEST;
-        return new ResponseEntity<>(new Wrapper<>(status, Constants.FAILURE_MESSAGE, LocalDateTime.now(),
-            ex.getErrors()), status);
+        return new ResponseEntity<>(
+            new Wrapper<>(status, Constants.FAILURE_MESSAGE, LocalDateTime.now(), ex.getErrors()),
+            status);
     }
 }

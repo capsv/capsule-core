@@ -27,12 +27,17 @@ public class AssaysService {
     private final KafkaStringProducer kafkaStringProducer;
     private final KafkaJsonProducer kafkaJsonProducer;
 
-    public ResponseEntity<Wrapper<RatingInfoResp>> pass(AssayReqst assayReqst,
+    public ResponseEntity<Wrapper<RatingInfoResp>> pass(AssayReqst request,
         BindingResult bindingResult) {
         validate(bindingResult);
 
-        int level = GenerateRatingTool.generate(assayReqst.assay());
+        int level = GenerateRatingTool.generate(request.assay());
 
+        kafkaStringProducer.produce(Constants.SUBMIT_ASSAY_PASSED_STATUS_TOPIC, request.username());
+        kafkaJsonProducer.produce(Constants.LEVEL_AFTER_ASSAY_TOPIC,
+            new AssaysService.AssayResult(request.username(), level));
+
+        LOGGER.info("AssaysService [assay-passing-service] the level for [{}]", request.username());
 
         return response(level);
     }
@@ -53,5 +58,9 @@ public class AssaysService {
         return new ResponseEntity<>(
             new Wrapper<>(status, Constants.SUCCESS_MESSAGE, LocalDateTime.now(),
                 List.of(new RatingInfoResp(level))), status);
+    }
+
+    private record AssayResult(String username, int level) {
+
     }
 }

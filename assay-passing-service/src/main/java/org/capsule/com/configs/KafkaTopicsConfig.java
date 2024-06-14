@@ -10,7 +10,7 @@ public class KafkaTopicsConfig {
 
     @Bean
     public NewTopic assayPassedTopic() {
-        return TopicBuilder.name("assay-passed-topic")
+        return TopicBuilder.name(Constants.SUBMIT_ASSAY_PASSED_STATUS_TOPIC)
             .partitions(1)
             .replicas(1)
             .build();
@@ -18,7 +18,7 @@ public class KafkaTopicsConfig {
 
     @Bean
     public NewTopic levelAfterAssayTopic() {
-        return TopicBuilder.name("level-after-assay-topic")
+        return TopicBuilder.name(Constants.LEVEL_AFTER_ASSAY_TOPIC)
             .partitions(1)
             .replicas(1)
             .build();
