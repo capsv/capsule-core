@@ -16,6 +16,14 @@ spring:
     url: ${POSTGRES_ACCOUNT_URL} #jdbc:postgresql://postgres-profile:5434/profile-service
     driver-class-name: org.postgresql.Driver
 
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: false
+        show_sql: false
+        default_schema: account
+
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/changelog.yml

@@ -51,8 +51,8 @@ public class DetailsService {
             .updatedAt(LocalDateTime.now())
             .build();
 
-        LOGGER.info("DetailsService [account-management-service] create entity [{}]", details);
         detailsDBService.save(details);
+        LOGGER.info("DetailsService [account-management-service] create entity [{}]", details);
     }
 
     public ResponseEntity<Wrapper<Data>> get(String username) {
@@ -73,12 +73,13 @@ public class DetailsService {
         BeanUtils.copyProperties(data, details, getNullPropertyNames(data));
 
         detailsDBService.save(details);
-        LOGGER.info("DetailsService [account-management-service] new entity [{}]", details);
+        LOGGER.info("DetailsService [account-management-service] updated entity [{}]", details);
 
         return response(Message.SUCCESS_PARTIALLY_UPDATE, List.of(detailsMapper.toDTO(details)));
     }
 
     public ResponseEntity<HttpStatus> delete(String username) {
+        LOGGER.info("DetailsService [account-management-service] deleted account [{}]", username);
         detailsDBService.deleteByUsername(username);
         kafkaProducerService.produce(Constants.DELETE_ACCOUNT_TOPIC, username);
         return new ResponseEntity<>(HttpStatus.OK);

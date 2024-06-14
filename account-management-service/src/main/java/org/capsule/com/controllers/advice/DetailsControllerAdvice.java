@@ -1,7 +1,10 @@
 package org.capsule.com.controllers.advice;
 
+import jakarta.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.capsule.com.dtos.common.CommonDTO;
+import org.capsule.com.dtos.errors.Error;
 import org.capsule.com.dtos.errors.WrongMessage;
 import org.capsule.com.dtos.responses.Wrapper;
 import org.capsule.com.utils.exceptions.NotFoundException;
@@ -19,8 +22,15 @@ public class DetailsControllerAdvice {
             List.of(new WrongMessage(e.getField(), e.getError())));
     }
 
-    private ResponseEntity<Wrapper<WrongMessage>> response(HttpStatus status, String message,
-        List<WrongMessage> payload) {
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Wrapper<Error>> handleConstraintViolationException(
+        ConstraintViolationException ex) {
+
+        return response(HttpStatus.BAD_REQUEST, ex.getMessage(), List.of(new Error(ex.getMessage())));
+    }
+
+    private <E extends CommonDTO> ResponseEntity<Wrapper<E>> response(HttpStatus status,
+        String message, List<E> payload) {
         return new ResponseEntity<>(new Wrapper<>(status, message, LocalDateTime.now(), payload),
             status);
     }
