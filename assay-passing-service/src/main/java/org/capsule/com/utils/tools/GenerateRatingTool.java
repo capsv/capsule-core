@@ -7,7 +7,7 @@ public final class GenerateRatingTool {
         int length = assay.length();
         int rating = 1;
         if (length > 0) {
-            rating = (int) Math.ceil((double) length / 100);
+            rating = (int) Math.ceil((double) length / 50);
         }
         return Math.min(rating, 10);
     }
