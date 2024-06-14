@@ -9,14 +9,14 @@ import org.springframework.kafka.config.TopicBuilder;
 public class KafkaTopicsConfig {
 
     @Bean
-    public NewTopic toEmailSenderTopic() {
-        return TopicBuilder.name(Constants.TO_EMAIL_SENDER_TOPIC).partitions(1).replicas(1)
+    public NewTopic lettersWithCodeTopic() {
+        return TopicBuilder.name(Constants.LETTERS_WITH_CODE_TOPIC).partitions(1).replicas(1)
             .build();
     }
 
     @Bean
-    public NewTopic toAuthTopic() {
-        return TopicBuilder.name(Constants.TO_AUTH_TOPIC).partitions(1).replicas(1)
+    public NewTopic submitVerifyStatusTopic() {
+        return TopicBuilder.name(Constants.SUBMIT_VERIFY_STATUS_TOPIC).partitions(1).replicas(1)
             .build();
     }
 }

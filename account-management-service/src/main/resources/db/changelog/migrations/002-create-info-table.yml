@@ -1,8 +1,0 @@
-databaseChangeLog:
-  - changeSet:
-      id: 002-create-info-table
-      author: trapper
-      changes:
-        - sqlFile:
-            path: migrations/sql/002-create-info-table.sql
-            relativeToChangelogFile: true

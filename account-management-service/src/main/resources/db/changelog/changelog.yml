@@ -3,5 +3,5 @@ databaseChangeLog:
       file: migrations/001-create-schemas.yml
       relativeToChangelogFile: true
   - include:
-      file: migrations/002-create-info-table.yml
+      file: migrations/002-create-details-table.yml
       relativeToChangelogFile: true

@@ -1,0 +1,14 @@
+package org.capsule.com.configs;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.WebClient;
+
+@Configuration
+public class WebClientConfig {
+
+    @Bean
+    public WebClient webClient(WebClient.Builder builder) {
+        return builder.baseUrl(Constants.GET_RANDOM_WORDS_URL).build();
+    }
+}
