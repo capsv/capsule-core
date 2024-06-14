@@ -1,4 +1,4 @@
-package org.capsule.com.utils;
+package org.capsule.com.utils.exceptions;
 
 import java.util.List;
 import lombok.Getter;
