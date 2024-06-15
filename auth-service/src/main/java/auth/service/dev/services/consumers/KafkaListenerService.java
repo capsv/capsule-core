@@ -17,14 +17,14 @@ public class KafkaListenerService {
     private final Logger LOGGER = LoggerFactory.getLogger(KafkaListenerService.class);
     private final PeopleDBService peopleDBService;
 
-    @KafkaListener(topics = Topics.SUBMIT_VERIFY_STATUS_TOPIC, containerFactory = "kafkaListenerContainerFactory")
+    @KafkaListener(topics = Topics.SUBMIT_VERIFY_STATUS_TOPIC, containerFactory = "kafkaListenerStringContainerFactory")
     public void consumerSubmitStatusTopic(ConsumerRecord<String, String> record,
         @Payload String username) {
         log(record);
         peopleDBService.setIsConfirmStatusByUsername(username);
     }
 
-    @KafkaListener(topics = Topics.DELETE_ACCOUNT_TOPIC, containerFactory = "kafkaListenerContainerFactory")
+    @KafkaListener(topics = Topics.DELETE_ACCOUNT_TOPIC, containerFactory = "kafkaListenerStringContainerFactory")
     public void consumerDeleteAccountTopic(ConsumerRecord<String, String> record,
         @Payload String username) {
         log(record);

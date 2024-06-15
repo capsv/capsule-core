@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-add-assay-status-field
+      author: trapper
+      changes:
+        - sqlFile:
+            path: migrations/sql/006-add-assay-status-field.sql
+            relativeToChangelogFile: true

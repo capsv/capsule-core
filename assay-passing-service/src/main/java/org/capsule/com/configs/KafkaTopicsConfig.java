@@ -18,7 +18,7 @@ public class KafkaTopicsConfig {
 
     @Bean
     public NewTopic levelAfterAssayTopic() {
-        return TopicBuilder.name(Constants.LEVEL_AFTER_ASSAY_TOPIC)
+        return TopicBuilder.name(Constants.SCORE_AFTER_ASSAY_TOPIC)
             .partitions(1)
             .replicas(1)
             .build();

@@ -160,7 +160,9 @@ public class AuthService {
                         .data(
                             Credentials.builder().username(person.getUsername())
                                 .email(person.getEmail())
-                                .confirm(person.isConfirm()).build()
+                                .confirm(person.isConfirm())
+                                .assay(person.isAssay())
+                                .build()
                         ).build()
                     )).build()
         );

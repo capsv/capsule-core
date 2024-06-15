@@ -2,7 +2,7 @@ package org.capsule.com.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.capsule.com.dtos.AssayReqst;
-import org.capsule.com.dtos.RatingInfoResp;
+import org.capsule.com.dtos.ScoreInfoResp;
 import org.capsule.com.dtos.Wrapper;
 import org.capsule.com.services.AssaysService;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ public class AssaysControllerImpl implements IAssaysController{
     private final AssaysService assaysService;
 
     @Override
-    public ResponseEntity<Wrapper<RatingInfoResp>> passAnAssay(AssayReqst assayReqst,
+    public ResponseEntity<Wrapper<ScoreInfoResp>> passAnAssay(AssayReqst assayReqst,
         BindingResult bindingResult) {
         return assaysService.pass(assayReqst, bindingResult);
     }

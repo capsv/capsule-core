@@ -19,5 +19,6 @@ public class Credentials {
 
     private boolean confirm; //TODO почему isConfirm возвращается в JSON как confirm
 
+    private boolean assay;
     //TODO authorities
 }

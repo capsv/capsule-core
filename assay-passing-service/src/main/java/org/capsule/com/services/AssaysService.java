@@ -6,12 +6,12 @@ import lombok.RequiredArgsConstructor;
 import org.capsule.com.configs.Constants;
 import org.capsule.com.dtos.AssayReqst;
 import org.capsule.com.dtos.Error;
-import org.capsule.com.dtos.RatingInfoResp;
+import org.capsule.com.dtos.ScoreInfoResp;
 import org.capsule.com.dtos.Wrapper;
 import org.capsule.com.services.producers.KafkaJsonProducer;
 import org.capsule.com.services.producers.KafkaStringProducer;
 import org.capsule.com.utils.exceptions.FieldsOfEntityIsNotValidException;
-import org.capsule.com.utils.tools.GenerateRatingTool;
+import org.capsule.com.utils.tools.GenerateScoreTool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -27,19 +27,19 @@ public class AssaysService {
     private final KafkaStringProducer kafkaStringProducer;
     private final KafkaJsonProducer kafkaJsonProducer;
 
-    public ResponseEntity<Wrapper<RatingInfoResp>> pass(AssayReqst request,
+    public ResponseEntity<Wrapper<ScoreInfoResp>> pass(AssayReqst request,
         BindingResult bindingResult) {
         validate(bindingResult);
 
-        int level = GenerateRatingTool.generate(request.assay());
+        int score = GenerateScoreTool.generate(request.assay());
 
         kafkaStringProducer.produce(Constants.SUBMIT_ASSAY_PASSED_STATUS_TOPIC, request.username());
-        kafkaJsonProducer.produce(Constants.LEVEL_AFTER_ASSAY_TOPIC,
-            new AssaysService.AssayResult(request.username(), level));
+        kafkaJsonProducer.produce(Constants.SCORE_AFTER_ASSAY_TOPIC,
+            new AssaysService.AssayResult(request.username(), score));
 
-        LOGGER.info("AssaysService [assay-passing-service] the level for [{}]", request.username());
+        LOGGER.info("AssaysService [assay-passing-service] the score for [{}]", request.username());
 
-        return response(level);
+        return response(score);
     }
 
     private void validate(BindingResult bindingResult) {
@@ -53,11 +53,11 @@ public class AssaysService {
         }
     }
 
-    private ResponseEntity<Wrapper<RatingInfoResp>> response(int level) {
+    private ResponseEntity<Wrapper<ScoreInfoResp>> response(int level) {
         var status = HttpStatus.OK;
         return new ResponseEntity<>(
             new Wrapper<>(status, Constants.SUCCESS_MESSAGE, LocalDateTime.now(),
-                List.of(new RatingInfoResp(level))), status);
+                List.of(new ScoreInfoResp(level))), status);
     }
 
     private record AssayResult(String username, int level) {
