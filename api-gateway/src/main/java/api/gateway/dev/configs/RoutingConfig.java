@@ -24,7 +24,7 @@ public class RoutingConfig {
             .route("assay-passing-service", r -> r.path("/api/v1/assays/**")
                 .filters(f -> f.filter(authFilter.apply(new AuthFilter.Config())))
                 .uri("lb://assay-passing-service"))
-            .route("email-verify-service", r -> r.path("/api/v1/email/verify/**")
+            .route("email-verify-service", r -> r.path("/api/v1/verifications/**")
                 .filters(f -> f.filter(authFilter.apply(new AuthFilter.Config())))
                 .uri("lb://email-verify-service"))
             .build();

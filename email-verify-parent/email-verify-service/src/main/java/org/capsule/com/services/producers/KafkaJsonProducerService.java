@@ -21,7 +21,7 @@ public class KafkaJsonProducerService {
     private final VerifyMapper verifyMapper;
 
     public void produce(String topic, Verify verify) {
-        Letter letter = new Letter(verify.getUsername(), verify.getEmail(), verify.getCode());  //TODO починить маппер
+        Letter letter = verifyMapper.convertToDTO(verify);  //TODO починить маппер
         CompletableFuture<SendResult<String, Object>> future = kafkaJsonTemplate.send(topic, letter);
         future.thenAccept(result -> {
             LOGGER.info("KAFKA [email-verify-service] sent message [{}] to [{}]", letter, topic);
