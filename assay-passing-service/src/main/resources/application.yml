@@ -1,6 +1,11 @@
 server:
   port: 8083
 
+application:
+  security:
+    jwt:
+      secret-key: ${SECRET_KEY}
+
 eureka:
   client:
     service-url:

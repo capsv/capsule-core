@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import org.capsule.com.dtos.common.CommonDTO;
 
-public record AssayReqst(@JsonProperty("username") @NotBlank(message = "should be not blank") String username,
-                         @JsonProperty("assay") @NotBlank(message = "should be not blank") String assay) implements
+public record AssayReqst(
+    @JsonProperty("assay") @NotBlank(message = "should be not blank") String assay) implements
     CommonDTO {
 
 }

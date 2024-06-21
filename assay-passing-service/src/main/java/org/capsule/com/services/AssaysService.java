@@ -24,20 +24,22 @@ import org.springframework.validation.BindingResult;
 public class AssaysService {
 
     private final Logger LOGGER = LoggerFactory.getLogger(AssaysService.class);
+    private final DecodeJWTService decodeJWTService;
     private final KafkaStringProducer kafkaStringProducer;
     private final KafkaJsonProducer kafkaJsonProducer;
 
-    public ResponseEntity<Wrapper<ScoreInfoResp>> pass(AssayReqst request,
+    public ResponseEntity<Wrapper<ScoreInfoResp>> pass(String token, AssayReqst request,
         BindingResult bindingResult) {
         validate(bindingResult);
 
+        String username = decodeJWTService.extractUsername(token.substring(7));
         int score = GenerateScoreTool.generate(request.assay());
 
-        kafkaStringProducer.produce(Constants.SUBMIT_ASSAY_PASSED_STATUS_TOPIC, request.username());
+        kafkaStringProducer.produce(Constants.SUBMIT_ASSAY_PASSED_STATUS_TOPIC, username);
         kafkaJsonProducer.produce(Constants.SCORE_AFTER_ASSAY_TOPIC,
-            new AssaysService.AssayResult(request.username(), score));
+            new AssaysService.AssayResult(username, score));
 
-        LOGGER.info("AssaysService [assay-passing-service] the score for [{}]", request.username());
+        LOGGER.info("AssaysService [assay-passing-service] the score for [{}]", username);
 
         return response(score);
     }
@@ -60,7 +62,5 @@ public class AssaysService {
                 List.of(new ScoreInfoResp(level))), status);
     }
 
-    private record AssayResult(String username, int level) {
-
-    }
+    private record AssayResult(String username, int level) { }
 }

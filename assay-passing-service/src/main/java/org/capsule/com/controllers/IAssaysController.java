@@ -8,10 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 public interface IAssaysController {
 
-    @PostMapping("/pass")
-    ResponseEntity<Wrapper<ScoreInfoResp>> passAnAssay(@RequestBody @Valid AssayReqst assayReqst,
-        BindingResult bindingResult);
+    @PostMapping(path = "/pass", headers = {"Authorization"}, consumes = "application/json",
+        produces = "application/json")
+    ResponseEntity<Wrapper<ScoreInfoResp>> passAnAssay(@RequestHeader("Authorization") String token,
+        @RequestBody @Valid AssayReqst request, BindingResult bindingResult);
 }

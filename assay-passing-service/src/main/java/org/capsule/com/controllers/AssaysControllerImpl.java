@@ -18,8 +18,8 @@ public class AssaysControllerImpl implements IAssaysController{
     private final AssaysService assaysService;
 
     @Override
-    public ResponseEntity<Wrapper<ScoreInfoResp>> passAnAssay(AssayReqst assayReqst,
+    public ResponseEntity<Wrapper<ScoreInfoResp>> passAnAssay(String token, AssayReqst request,
         BindingResult bindingResult) {
-        return assaysService.pass(assayReqst, bindingResult);
+        return assaysService.pass(token, request, bindingResult);
     }
 }
