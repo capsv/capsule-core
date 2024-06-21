@@ -42,7 +42,7 @@ public class JwtService {
     }
 
     public String generateAccessToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+        return generateToken(new HashMap<>(), userDetails); //TODO добавить в токен person_id
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {

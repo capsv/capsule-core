@@ -17,16 +17,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class DetailsControllerAdvice {
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Wrapper<WrongMessage>> handleException(NotFoundException e) {
-        return response(HttpStatus.NOT_FOUND, e.getMessage(),
-            List.of(new WrongMessage(e.getField(), e.getError())));
+    private ResponseEntity<Wrapper<WrongMessage>> handleException(NotFoundException ex) {
+        return response(HttpStatus.NOT_FOUND, ex.getMessage(),
+            List.of(new WrongMessage(ex.getField(), ex.getError())));
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Wrapper<Error>> handleConstraintViolationException(
+    private ResponseEntity<Wrapper<Error>> handleConstraintViolationException(
         ConstraintViolationException ex) {
-
         return response(HttpStatus.BAD_REQUEST, ex.getMessage(), List.of(new Error(ex.getMessage())));
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    private ResponseEntity<Wrapper<Error>> handleRuntimeException(RuntimeException ex) {
+        return response(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), List.of(new Error(ex.getMessage())));
     }
 
     private <E extends CommonDTO> ResponseEntity<Wrapper<E>> response(HttpStatus status,

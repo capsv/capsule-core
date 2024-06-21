@@ -23,6 +23,12 @@ public interface PeopleRepository extends CommonRepository<Person> {
 
     @Modifying
     @Query(value = """
+      UPDATE auth.person SET is_assay = true WHERE username = :username
+      """, nativeQuery = true)
+    void setIsAssayStatusByUsername(@Param("username") String username);
+
+    @Modifying
+    @Query(value = """
         DELETE FROM auth.person WHERE username = :username
         """, nativeQuery = true)
     void deleteByUsername(@Param("username") String username);

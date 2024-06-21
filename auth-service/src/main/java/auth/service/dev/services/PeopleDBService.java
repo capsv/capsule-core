@@ -33,6 +33,11 @@ public class PeopleDBService {
     }
 
     @Transactional(readOnly = false)
+    public void setIsAssayStatusByUsername(String username) {
+        peopleRepository.setIsAssayStatusByUsername(username);
+    }
+
+    @Transactional(readOnly = false)
     public void deleteByUsername(String username) {
         peopleRepository.deleteByUsername(username);
     }
