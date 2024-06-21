@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: migrations/001-create-schemas.yml
+      relativeToChangelogFile: true
+  - include:
+      file: migrations/002-create-statistic-table.yml
+      relativeToChangelogFile: true
