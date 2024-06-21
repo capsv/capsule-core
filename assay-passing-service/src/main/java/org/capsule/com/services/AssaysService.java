@@ -62,5 +62,5 @@ public class AssaysService {
                 List.of(new ScoreInfoResp(level))), status);
     }
 
-    private record AssayResult(String username, int level) { }
+    private record AssayResult(String username, int score) { }
 }
