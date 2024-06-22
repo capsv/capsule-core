@@ -18,6 +18,7 @@ public class StatisticsDBService {
         statisticsRepository.save(statistic);
     }
 
+    @Transactional(readOnly = false)
     public void deleteByUsername(String username) {
         statisticsRepository.deleteByUsername(username);
     }

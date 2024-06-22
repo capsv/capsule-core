@@ -11,7 +11,7 @@ public interface StatisticsRepository extends CommonJpaRepository<Statistic> {
 
     @Modifying
     @Query(value = """
-        DELETE FROM statistic.statistic WHERE username = :username;
+        DELETE FROM statistic.statistic WHERE username = :username
         """, nativeQuery = true)
     void deleteByUsername(@Param("username") String username);
 }
