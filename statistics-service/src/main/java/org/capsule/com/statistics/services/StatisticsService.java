@@ -2,7 +2,9 @@ package org.capsule.com.statistics.services;
 
 import lombok.RequiredArgsConstructor;
 import org.capsule.com.statistics.dtos.Score;
+import org.capsule.com.statistics.dtos.StatisticDTOResp;
 import org.capsule.com.statistics.models.Statistic;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,5 +26,10 @@ public class StatisticsService {
         Statistic statistic = statisticsDBService.findByUsername(payload.username());
         statistic.setScore(payload.score());
         statisticsDBService.save(statistic);
+    }
+
+    public ResponseEntity<StatisticDTOResp> getStatistics(String token) {
+
+        return null;
     }
 }
