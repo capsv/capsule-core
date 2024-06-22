@@ -46,6 +46,9 @@ public interface IAuthController {
     ResponseEntity<ResponseWrapper> authenticate(@RequestBody @Valid PersonAuthReqst reqst,
         BindingResult bindingResult);
 
+    @GetMapping(headers = {"Authorization"}, produces = "application/json")
+    ResponseEntity<ResponseWrapper> get(@RequestHeader("Authorization") String token);
+
     @PostMapping("/validate")
     @Operation(summary = "Validate tokens")
     @ApiResponses(value = {

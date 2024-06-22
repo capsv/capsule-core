@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -98,6 +99,25 @@ public class AuthService {
         var access = jwtService.generateAccessToken(new PersonDetails(person));
 
         return response(Constants.AUTHENTICATION_SUCCESS_MESSAGE, access, refresh, person);
+    }
+
+
+    public ResponseEntity<ResponseWrapper> get(String token) {
+        String username = jwtService.extractUsername(token.substring(7));
+        Person person = extractEntityFromDB(username);
+        Credentials credentials = new Credentials(
+            person.getUsername(),
+            person.getEmail(),
+            person.isConfirm(),
+            person.isAssay());
+
+        return new ResponseEntity<>(
+            ResponseWrapper.builder()
+                .status(Status.SUCCESS)
+                .message(Constants.SUCCESS_MESSAGE)
+                .time(LocalDateTime.now())
+                .payload(List.of(credentials))
+                .build(), HttpStatus.OK);
     }
 
     public ResponseEntity<Boolean> validateToken(TokenReqst token) {
