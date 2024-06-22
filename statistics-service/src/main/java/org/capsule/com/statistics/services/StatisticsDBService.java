@@ -14,12 +14,17 @@ public class StatisticsDBService {
     private final StatisticsRepository statisticsRepository;
 
     @Transactional(readOnly = false)
-    public void create(Statistic statistic) {
+    public void save(Statistic statistic) {
         statisticsRepository.save(statistic);
     }
 
     @Transactional(readOnly = false)
     public void deleteByUsername(String username) {
         statisticsRepository.deleteByUsername(username);
+    }
+
+    public Statistic findByUsername(String username) {
+        return statisticsRepository.findByUsername(username)
+            .orElseThrow(() -> new IllegalArgumentException("user not found"));
     }
 }
