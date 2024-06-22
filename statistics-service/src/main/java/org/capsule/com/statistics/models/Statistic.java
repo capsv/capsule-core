@@ -6,7 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
+import java.util.Objects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,8 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-public class Statistic implements CEntity{
+public class Statistic implements CEntity {
 
     @Id
     @Column(name = "statistic_id")
@@ -30,9 +29,16 @@ public class Statistic implements CEntity{
     @Column(name = "score")
     private int score;
 
-    @Column(name ="completed_tasks")
+    @Column(name = "completed_tasks")
     private int completedTasks;
 
     @Column(name = "missed_tasks")
     private int missedTasks;
+
+    public Statistic(String username, int score, int completedTasks, int missedTasks) {
+        this.username = username;
+        this.score = score;
+        this.completedTasks = completedTasks;
+        this.missedTasks = missedTasks;
+    }
 }
