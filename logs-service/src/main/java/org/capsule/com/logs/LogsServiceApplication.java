@@ -6,10 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class VividLogService {
+public class LogService {
 
 	public static void main(String[] args) {
-		SpringApplication.run(VividLogService.class, args);
+		SpringApplication.run(LogService.class, args);
 	}
 
 }

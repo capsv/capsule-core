@@ -9,7 +9,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>log-service</artifactId>
+	<artifactId>logs-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>log-service</name>
 	<description>A service for centralized storage and analysis of logs</description>
