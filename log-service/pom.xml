@@ -9,10 +9,10 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>vivid-log-service</artifactId>
+	<artifactId>log-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>vivid-log-service</name>
-	<description>A vivid service for centralized storage and analysis of logs</description>
+	<name>log-service</name>
+	<description>A service for centralized storage and analysis of logs</description>
 
 	<properties>
 		<java.version>17</java.version>
