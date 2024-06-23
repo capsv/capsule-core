@@ -1,5 +1,6 @@
 package org.capsule.com.tasks.services;
 
+import lombok.RequiredArgsConstructor;
 import org.capsule.com.tasks.dtos.requests.TaskIdReqst;
 import org.capsule.com.tasks.dtos.responses.ListOfTasksResp;
 import org.springframework.http.HttpStatus;
@@ -8,7 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 @Service
+@RequiredArgsConstructor
 public class TasksService {
+
+    private final DecodeJwtService decodeJwtService;
 
     public HttpStatus startTask(String token, TaskIdReqst request, BindingResult bindingResult) {
         return null;
