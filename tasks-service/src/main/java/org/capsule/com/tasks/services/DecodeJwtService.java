@@ -37,4 +37,3 @@ public class DecodeJwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
-
