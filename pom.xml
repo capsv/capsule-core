@@ -31,7 +31,7 @@
         <module>statistics-service</module>
         <module>tasks-service</module>
         <module>email-verify-parent</module>
-        <module>log-service</module>
+        <module>logs-service</module>
     </modules>
 
     <dependencyManagement>

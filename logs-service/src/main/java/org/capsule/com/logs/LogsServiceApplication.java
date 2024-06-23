@@ -1,4 +1,4 @@
-package org.capsule.dev;
+package org.capsule.com.logs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,10 +6,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class LogService {
+public class LogsServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LogService.class, args);
+		SpringApplication.run(LogsServiceApplication.class, args);
 	}
 
 }

@@ -11,7 +11,7 @@
 
 	<artifactId>logs-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>log-service</name>
+	<name>logs-service</name>
 	<description>A service for centralized storage and analysis of logs</description>
 
 	<properties>
