@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.capsule.com.tasks.dtos.errors.CustomError;
 import org.capsule.com.tasks.dtos.requests.TaskIdReqst;
 import org.capsule.com.tasks.dtos.responses.ListOfTasksResp;
+import org.capsule.com.tasks.models.Session;
 import org.capsule.com.tasks.models.Task;
-import org.capsule.com.tasks.models.TaskManage;
 import org.capsule.com.tasks.utils.exceptions.FieldsNotValidException;
 import org.capsule.com.tasks.utils.mappers.TasksMapper;
 import org.slf4j.Logger;
@@ -25,23 +25,23 @@ public class TasksService implements ITasksService<TaskIdReqst, ListOfTasksResp>
 
     private final Logger LOGGER = LoggerFactory.getLogger(TasksService.class);
     private final DecodeJwtService decodeJwtService;
-    private final TaskDBService taskDBService;
+    private final TasksDBService tasksDBService;
     private final TasksMapper tasksMapper;
 
     public HttpStatus startTask(String token, TaskIdReqst request, BindingResult bindingResult) {
-        process(bindingResult, token, request, TaskManage.Status.IN_PROGRESS);
+        process(bindingResult, token, request, Session.Status.IN_PROGRESS);
 
         return HttpStatus.CREATED;
     }
 
     public HttpStatus completeTask(String token, TaskIdReqst request, BindingResult bindingResult) {
-        process(bindingResult, token, request, TaskManage.Status.COMPLETED);
+        process(bindingResult, token, request, Session.Status.COMPLETED);
 
         return HttpStatus.OK;
     }
 
     public HttpStatus skipTask(String token, TaskIdReqst request, BindingResult bindingResult) {
-        process(bindingResult, token, request, TaskManage.Status.SKIPPED);
+        process(bindingResult, token, request, Session.Status.SKIPPED);
 
         return HttpStatus.OK;
     }
@@ -49,8 +49,8 @@ public class TasksService implements ITasksService<TaskIdReqst, ListOfTasksResp>
     //достать все сессии пользователя -> найти сессии на сегодня -> если таких нет создать
     public ResponseEntity<ListOfTasksResp> get(String token) {
         String username = extractUsernameFromToken(token);
-        List<TaskManage> sessions = taskDBService.findAllSessionsByUsername(username);
-        List<TaskManage> sessionToday = sessions.stream()
+        List<Session> sessions = tasksDBService.findAllSessionsByUsername(username);
+        List<Session> sessionToday = sessions.stream()
             .filter(session -> {
                 LocalDateTime created = session.getCreatedAt();
 
@@ -63,37 +63,37 @@ public class TasksService implements ITasksService<TaskIdReqst, ListOfTasksResp>
 
         if (!sessionToday.isEmpty()) {
             List<Task> tasks = sessionToday.stream()
-                .map(TaskManage::getTask)
+                .map(Session::getTask)
                 .toList();
-            return new ResponseEntity<>(new ListOfTasksResp(tasks.stream()
-                .map(tasksMapper::toDto)
-                .toList()), HttpStatus.OK);
+            return response(tasks);
         }
 
-        List<Task> tasks = taskDBService.getThreeRandomTasks();
+        List<Task> tasks = tasksDBService.getThreeRandomTasks();
+        tasks.forEach(task -> taskManageManipulation(Session.Status.ASSIGNED, username, task));
+        return response(tasks);
+    }
 
-        tasks.forEach(task -> taskManageManipulation(TaskManage.Status.ASSIGNED, username, task));
-
+    private ResponseEntity<ListOfTasksResp> response(List<Task> tasks) {
         return new ResponseEntity<>(new ListOfTasksResp(tasks.stream()
             .map(tasksMapper::toDto)
             .toList()), HttpStatus.OK);
     }
 
     private void process(BindingResult bindingResult, String token, TaskIdReqst request,
-        TaskManage.Status status) {
+        Session.Status status) {
         validate(bindingResult);
         String username = extractUsernameFromToken(token);
-        Task task = taskDBService.findById(request.taskId());
+        Task task = tasksDBService.findById(request.taskId());
         taskManageManipulation(status, username, task);
     }
 
-    private void taskManageManipulation(TaskManage.Status status, String username, Task task) {
-        TaskManage manager = createTaskManage(username, task, status);
-        taskDBService.save(manager);
+    private void taskManageManipulation(Session.Status status, String username, Task task) {
+        Session manager = createTaskManage(username, task, status);
+        tasksDBService.save(manager);
     }
 
-    private TaskManage createTaskManage(String username, Task task, TaskManage.Status status) {
-        return TaskManage.builder()
+    private Session createTaskManage(String username, Task task, Session.Status status) {
+        return Session.builder()
             .task(task)
             .username(username)
             .status(status)

@@ -1,16 +1,16 @@
 package org.capsule.com.tasks.repositories;
 
 import java.util.List;
-import org.capsule.com.tasks.models.TaskManage;
+import org.capsule.com.tasks.models.Session;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TasksManageRepository extends ICEntityJpaRepository<TaskManage> {
+public interface SessionsRepository extends ICEntityJpaRepository<Session> {
 
     @Query(value = """
-        SELECT *  FROM task.tasks_manage WHERE  username = :username
+        SELECT *  FROM task.session WHERE  username = :username
         """, nativeQuery = true)
-    List<TaskManage> findAllByUsername(@Param("username") String username);
+    List<Session> findAllByUsername(@Param("username") String username);
 }

@@ -37,5 +37,5 @@ public class Task implements CEntity {
     private String description;
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TaskManage> taskManages;
+    private List<Session> sessions;
 }

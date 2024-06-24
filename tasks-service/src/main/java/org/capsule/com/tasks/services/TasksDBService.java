@@ -1,12 +1,11 @@
 package org.capsule.com.tasks.services;
 
-
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.capsule.com.tasks.models.Task;
-import org.capsule.com.tasks.models.TaskManage;
-import org.capsule.com.tasks.repositories.TasksManageRepository;
+import org.capsule.com.tasks.models.Session;
+import org.capsule.com.tasks.repositories.SessionsRepository;
 import org.capsule.com.tasks.repositories.TasksRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,10 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class TaskDBService {
+public class TasksDBService {
 
     private final TasksRepository tasksRepository;
-    private final TasksManageRepository tasksManageRepository;
+    private final SessionsRepository sessionsRepository;
 
     public Task findById(long id) {
         return tasksRepository.findById(id)
@@ -25,12 +24,12 @@ public class TaskDBService {
     }
 
     @Transactional(readOnly = false)
-    public void save(TaskManage manager) {
-        tasksManageRepository.save(manager);
+    public void save(Session session) {
+        sessionsRepository.save(session);
     }
 
-    public List<TaskManage> findAllSessionsByUsername(String username) {
-        return tasksManageRepository.findAllByUsername(username);
+    public List<Session> findAllSessionsByUsername(String username) {
+        return sessionsRepository.findAllByUsername(username);
     }
 
     public List<Task> getThreeRandomTasks() {

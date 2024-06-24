@@ -19,16 +19,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "tasks_manage")
+@Table(name = "session")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TaskManage implements CEntity {
+public class Session implements CEntity {
 
     @Id
-    @Column(name = "task_manage_id")
+    @Column(name = "session_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
