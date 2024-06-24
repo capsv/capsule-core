@@ -10,9 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.List;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,7 +43,10 @@ public class TaskManage implements CEntity {
     @Column(name = "status", nullable = false)
     private Status status;
 
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
     public enum Status {
-        IN_PROGRESS, COMPLETED, SKIP
+        ASSIGNED, IN_PROGRESS, COMPLETED, SKIPPED
     }
 }
