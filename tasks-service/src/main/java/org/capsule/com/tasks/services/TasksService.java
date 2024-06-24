@@ -74,12 +74,13 @@ public class TasksService implements ITasksService<TaskIdReqst, ListOfTasksResp>
     }
 
     private List<Session> getTodaySessionsByUsername(String username) {
-        LocalDateTime todayAt3AM = LocalDate.now()
-            .atTime(3, 0);
+        final int SESSIONS_START_HOUR = 3;
+        final int SESSION_START_MINUTE = 0;
+
+        LocalDateTime todayAt3AM = LocalDate.now().atTime(SESSIONS_START_HOUR, SESSION_START_MINUTE);
         return tasksDBService.findAllSessionsByUsername(username)
             .stream()
-            .filter(session -> session.getCreatedAt()
-                .isAfter(todayAt3AM))
+            .filter(session -> session.getCreatedAt().isAfter(todayAt3AM))
             .collect(Collectors.toList());
     }
 
