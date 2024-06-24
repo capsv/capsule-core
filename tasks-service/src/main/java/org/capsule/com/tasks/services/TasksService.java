@@ -7,6 +7,8 @@ import org.capsule.com.tasks.dtos.errors.CustomError;
 import org.capsule.com.tasks.dtos.requests.TaskIdReqst;
 import org.capsule.com.tasks.dtos.responses.ListOfTasksResp;
 import org.capsule.com.tasks.utils.exceptions.FieldsNotValidException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import org.springframework.validation.BindingResult;
 @RequiredArgsConstructor
 public class TasksService implements ITasksService<TaskIdReqst, ListOfTasksResp> {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(TasksService.class);
     private final DecodeJwtService decodeJwtService;
 
     public HttpStatus startTask(String token, TaskIdReqst request, BindingResult bindingResult) {
@@ -53,10 +56,14 @@ public class TasksService implements ITasksService<TaskIdReqst, ListOfTasksResp>
     }
 
     private String extractUsernameFromToken(String token) {
+        if (token == null || token.isEmpty()) {
+            throw new IllegalArgumentException("Token cannot be null or empty");
+        }
         try {
             return decodeJwtService.extractUsername(token);
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            LOGGER.error("Error extracting username from token", ex);
+            throw new RuntimeException("Failed to extract username from token", ex);
         }
     }
 }
