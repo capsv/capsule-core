@@ -23,80 +23,83 @@ import org.springframework.validation.BindingResult;
 @RequiredArgsConstructor
 public class TasksService implements ITasksService<TaskIdReqst, ListOfTasksResp> {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(TasksService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TasksService.class);
+
     private final DecodeJwtService decodeJwtService;
     private final TasksDBService tasksDBService;
     private final TasksMapper tasksMapper;
 
+    @Override
     public HttpStatus startTask(String token, TaskIdReqst request, BindingResult bindingResult) {
-        process(bindingResult, token, request, Session.Status.IN_PROGRESS);
-
-        return HttpStatus.CREATED;
+        return processTaskRequest(token, request, bindingResult, Session.Status.IN_PROGRESS,
+            HttpStatus.CREATED);
     }
 
+    @Override
     public HttpStatus completeTask(String token, TaskIdReqst request, BindingResult bindingResult) {
-        process(bindingResult, token, request, Session.Status.COMPLETED);
-
-        return HttpStatus.OK;
+        return processTaskRequest(token, request, bindingResult, Session.Status.COMPLETED,
+            HttpStatus.OK);
     }
 
+    @Override
     public HttpStatus skipTask(String token, TaskIdReqst request, BindingResult bindingResult) {
-        process(bindingResult, token, request, Session.Status.SKIPPED);
-
-        return HttpStatus.OK;
+        return processTaskRequest(token, request, bindingResult, Session.Status.SKIPPED,
+            HttpStatus.OK);
     }
 
-    //достать все сессии пользователя -> найти сессии на сегодня -> если таких нет создать
+    @Override
     public ResponseEntity<ListOfTasksResp> get(String token) {
         String username = extractUsernameFromToken(token);
-        List<Session> sessions = tasksDBService.findAllSessionsByUsername(username);
-        List<Session> sessionToday = sessions.stream()
-            .filter(session -> {
-                LocalDateTime created = session.getCreatedAt();
-
-                LocalDate today = LocalDate.now();
-                LocalDateTime at3AM = today.atTime(3, 0);
-
-                return created.isAfter(at3AM);
-            })
-            .toList();
+        List<Session> sessionToday = getTodaySessionsByUsername(username);
 
         if (!sessionToday.isEmpty()) {
-            List<Task> tasks = sessionToday.stream()
+            return createResponse(sessionToday.stream()
                 .map(Session::getTask)
-                .toList();
-            return response(tasks);
+                .collect(Collectors.toList()));
         }
 
         List<Task> tasks = tasksDBService.getThreeRandomTasks();
-        tasks.forEach(task -> taskManageManipulation(Session.Status.ASSIGNED, username, task));
-        return response(tasks);
+        tasks.forEach(task -> sessionManipulation(Session.Status.ASSIGNED, username, task));
+        return createResponse(tasks);
     }
 
-    private ResponseEntity<ListOfTasksResp> response(List<Task> tasks) {
-        return new ResponseEntity<>(new ListOfTasksResp(tasks.stream()
-            .map(tasksMapper::toDto)
-            .toList()), HttpStatus.OK);
-    }
-
-    private void process(BindingResult bindingResult, String token, TaskIdReqst request,
-        Session.Status status) {
+    private HttpStatus processTaskRequest(String token, TaskIdReqst request,
+        BindingResult bindingResult, Session.Status status, HttpStatus httpStatus) {
         validate(bindingResult);
         String username = extractUsernameFromToken(token);
         Task task = tasksDBService.findById(request.taskId());
-        taskManageManipulation(status, username, task);
+        sessionManipulation(status, username, task);
+
+        return httpStatus;
     }
 
-    private void taskManageManipulation(Session.Status status, String username, Task task) {
-        Session manager = createTaskManage(username, task, status);
-        tasksDBService.save(manager);
+    private List<Session> getTodaySessionsByUsername(String username) {
+        LocalDateTime todayAt3AM = LocalDate.now()
+            .atTime(3, 0);
+        return tasksDBService.findAllSessionsByUsername(username)
+            .stream()
+            .filter(session -> session.getCreatedAt()
+                .isAfter(todayAt3AM))
+            .collect(Collectors.toList());
     }
 
-    private Session createTaskManage(String username, Task task, Session.Status status) {
+    private ResponseEntity<ListOfTasksResp> createResponse(List<Task> tasks) {
+        return new ResponseEntity<>(new ListOfTasksResp(tasks.stream()
+            .map(tasksMapper::toDto)
+            .collect(Collectors.toList())), HttpStatus.OK);
+    }
+
+    private void sessionManipulation(Session.Status status, String username, Task task) {
+        Session session = createSession(username, task, status);
+        tasksDBService.save(session);
+    }
+
+    private Session createSession(String username, Task task, Session.Status status) {
         return Session.builder()
             .task(task)
             .username(username)
             .status(status)
+            .createdAt(LocalDateTime.now())
             .build();
     }
 
@@ -106,7 +109,6 @@ public class TasksService implements ITasksService<TaskIdReqst, ListOfTasksResp>
                 .stream()
                 .map(error -> new CustomError(error.getField(), error.getDefaultMessage()))
                 .collect(Collectors.toList());
-
             throw new FieldsNotValidException(errors);
         }
     }
