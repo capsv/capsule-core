@@ -1,6 +1,7 @@
 package org.capsule.com.tasks.models;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -17,6 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.capsule.com.tasks.utils.StatusConverter;
 
 @Entity
 @Table(name = "session")
@@ -39,8 +41,8 @@ public class Session implements CEntity {
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Convert(converter = StatusConverter.class)
+    @Column(name = "status", nullable = false, columnDefinition = "task_status")
     private Status status;
 
     @Column(name = "created_at", nullable = false)

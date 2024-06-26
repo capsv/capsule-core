@@ -1,7 +1,24 @@
 package org.capsule.com.tasks.dtos.responses;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.capsule.com.tasks.dtos.CoDto;
 
-public record TaskDto(long id, String title, String description) implements CoDto {
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class TaskDto implements CoDto {
 
+    private long id;
+
+    private String title;
+
+    private String description;
+
+    private String status;
 }

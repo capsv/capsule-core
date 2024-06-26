@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.capsule.com.tasks.dtos.errors.CustomError;
 import org.capsule.com.tasks.dtos.requests.TaskIdReqst;
 import org.capsule.com.tasks.dtos.responses.ListOfTasksResp;
+import org.capsule.com.tasks.dtos.responses.TaskDto;
 import org.capsule.com.tasks.models.Session;
 import org.capsule.com.tasks.models.Task;
 import org.capsule.com.tasks.utils.exceptions.FieldsNotValidException;
@@ -86,12 +87,24 @@ public class TasksService implements ITasksService<TaskIdReqst, ListOfTasksResp>
 
     private ResponseEntity<ListOfTasksResp> createResponse(List<Task> tasks) {
         return new ResponseEntity<>(new ListOfTasksResp(tasks.stream()
-            .map(tasksMapper::toDto)
+            .map(task -> {
+                TaskDto taskDto = tasksMapper.toDto(task);
+                taskDto.setStatus(task.getSessions().get(0).getStatus().toString());
+                return taskDto;
+            })
             .collect(Collectors.toList())), HttpStatus.OK);
     }
 
     private void sessionManipulation(Session.Status status, String username, Task task) {
-        Session session = createSession(username, task, status);
+        Session session = switch (status) {
+            case ASSIGNED -> createSession(username, task, status);
+            case IN_PROGRESS, COMPLETED, SKIPPED ->{
+                Session newStatusSession = tasksDBService.getSessionByUsernameAndTaskId(username, task.getId());
+                newStatusSession.setStatus(status);
+                yield newStatusSession;
+            }
+        };
+
         tasksDBService.save(session);
     }
 
@@ -119,7 +132,7 @@ public class TasksService implements ITasksService<TaskIdReqst, ListOfTasksResp>
             throw new IllegalArgumentException("Token cannot be null or empty");
         }
         try {
-            return decodeJwtService.extractUsername(token);
+            return decodeJwtService.extractUsername(token.substring(7));
         } catch (Exception ex) {
             LOGGER.error("Error extracting username from token", ex);
             throw new RuntimeException("Failed to extract username from token", ex);

@@ -13,4 +13,6 @@ public interface SessionsRepository extends ICEntityJpaRepository<Session> {
         SELECT *  FROM task.session WHERE  username = :username
         """, nativeQuery = true)
     List<Session> findAllByUsername(@Param("username") String username);
+
+    Session findByUsernameAndTaskId(String username, Long taskId);
 }

@@ -2,6 +2,7 @@ package org.capsule.com.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -36,9 +37,12 @@ public class DetailsService {
     private final ObjectMapper objectMapper;
 
     public void createNewAccountFromKafka(String username) {
-        List<String> words = Arrays.asList(null, null);
+        List<String> words = new ArrayList<>(Arrays.asList(null, null));
         try {
-            words = generateFirstSecondNameService.get();
+            //words = generateFirstSecondNameService.get();
+            words.set(0, "Hello");
+            words.set(1, "World");
+
         } catch (IllegalArgumentException | IllegalStateException ex) {
             LOGGER.error("Error generating first and second names", ex);
         }

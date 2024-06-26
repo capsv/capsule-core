@@ -37,4 +37,8 @@ public class TasksDBService {
         Collections.shuffle(tasks);
         return tasks.stream().limit(3).toList();
     }
+
+    public Session getSessionByUsernameAndTaskId(String username, long id) {
+        return sessionsRepository.findByUsernameAndTaskId(username, id);
+    }
 }
