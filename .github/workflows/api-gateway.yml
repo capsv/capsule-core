@@ -34,10 +34,16 @@ jobs:
         password: ${{ env.DOCKER_PASSWORD }}
 
     - name: Build with Maven
-      run: mvn clean package -DskipTests
+      run: |
+        cd api-gateway
+        mvn clean package -DskipTests
 
     - name: Build Docker image
-      run: docker build -t ${{ env.DOCKER_USERNAME }}/api-gateway:latest .
+      run: |
+        cd api-gateway 
+        docker build -t ${{ env.DOCKER_USERNAME }}/api-gateway:latest .
 
     - name: Push Docker image
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest
+      run: |
+        cd api-gateway
+        docker push ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest
