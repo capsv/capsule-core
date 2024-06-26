@@ -46,4 +46,4 @@ jobs:
     - name: Push Docker image
       run: |
         cd api-gateway
-        docker push ${{ secrets.DOCKER_USERNAME }}/api-gateway:latest
+        docker push ${{ env.DOCKER_USERNAME }}/api-gateway:latest
