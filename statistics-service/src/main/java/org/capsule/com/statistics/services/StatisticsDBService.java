@@ -27,4 +27,18 @@ public class StatisticsDBService {
         return statisticsRepository.findByUsername(username)
             .orElseThrow(() -> new IllegalArgumentException("user not found"));
     }
+
+    @Transactional(readOnly = false)
+    public void incrementCompleted(String username) {
+        Statistic statistic = findByUsername(username);
+        statistic.setCompletedTasks(statistic.getCompletedTasks() + 1);
+        save(statistic);
+    }
+
+    @Transactional(readOnly = false)
+    public void incrementSkipped(String username) {
+        Statistic statistic = findByUsername(username);
+        statistic.setMissedTasks(statistic.getMissedTasks() + 1);
+        save(statistic);
+    }
 }

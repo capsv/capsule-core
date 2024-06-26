@@ -5,12 +5,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.capsule.com.tasks.configs.Topics;
 import org.capsule.com.tasks.dtos.errors.CustomError;
 import org.capsule.com.tasks.dtos.requests.TaskIdReqst;
 import org.capsule.com.tasks.dtos.responses.ListOfTasksResp;
 import org.capsule.com.tasks.dtos.responses.TaskDto;
+import org.capsule.com.tasks.dtos.responses.UpdateStatisticDto;
 import org.capsule.com.tasks.models.Session;
 import org.capsule.com.tasks.models.Task;
+import org.capsule.com.tasks.services.producers.KafkaJsonProducerService;
 import org.capsule.com.tasks.utils.exceptions.FieldsNotValidException;
 import org.capsule.com.tasks.utils.mappers.TasksMapper;
 import org.slf4j.Logger;
@@ -29,6 +32,7 @@ public class TasksService implements ITasksService<TaskIdReqst, ListOfTasksResp>
     private final DecodeJwtService decodeJwtService;
     private final TasksDBService tasksDBService;
     private final TasksMapper tasksMapper;
+    private final KafkaJsonProducerService kafkaJsonProducerService;
 
     @Override
     public HttpStatus startTask(String token, TaskIdReqst request, BindingResult bindingResult) {
@@ -55,13 +59,16 @@ public class TasksService implements ITasksService<TaskIdReqst, ListOfTasksResp>
 
         if (!sessionToday.isEmpty()) {
             return createResponse(sessionToday.stream()
-                .map(Session::getTask)
-                .collect(Collectors.toList()));
+                .map(session -> {
+                    TaskDto task = tasksMapper.toDto(session.getTask());
+                    task.setStatus(session.getStatus().toString());
+                    return task;
+                }).toList());
         }
 
         List<Task> tasks = tasksDBService.getThreeRandomTasks();
         tasks.forEach(task -> sessionManipulation(Session.Status.ASSIGNED, username, task));
-        return createResponse(tasks);
+        return createResponse(tasks.stream().map(tasksMapper::toDto).toList());
     }
 
     private HttpStatus processTaskRequest(String token, TaskIdReqst request,
@@ -85,22 +92,22 @@ public class TasksService implements ITasksService<TaskIdReqst, ListOfTasksResp>
             .collect(Collectors.toList());
     }
 
-    private ResponseEntity<ListOfTasksResp> createResponse(List<Task> tasks) {
-        return new ResponseEntity<>(new ListOfTasksResp(tasks.stream()
-            .map(task -> {
-                TaskDto taskDto = tasksMapper.toDto(task);
-                taskDto.setStatus(task.getSessions().get(0).getStatus().toString());
-                return taskDto;
-            })
-            .collect(Collectors.toList())), HttpStatus.OK);
+    private ResponseEntity<ListOfTasksResp> createResponse(List<TaskDto> tasks) {
+        return new ResponseEntity<>(new ListOfTasksResp(tasks), HttpStatus.OK);
     }
 
     private void sessionManipulation(Session.Status status, String username, Task task) {
         Session session = switch (status) {
             case ASSIGNED -> createSession(username, task, status);
-            case IN_PROGRESS, COMPLETED, SKIPPED ->{
+            case IN_PROGRESS, COMPLETED, SKIPPED -> {
                 Session newStatusSession = tasksDBService.getSessionByUsernameAndTaskId(username, task.getId());
                 newStatusSession.setStatus(status);
+
+                if(status != Session.Status.IN_PROGRESS) {
+                    kafkaJsonProducerService.produce(Topics.TASKS_DATA_TOPIC,
+                        new UpdateStatisticDto(status.toString(), username));
+                }
+
                 yield newStatusSession;
             }
         };

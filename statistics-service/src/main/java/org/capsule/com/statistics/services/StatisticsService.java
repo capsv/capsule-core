@@ -1,8 +1,10 @@
 package org.capsule.com.statistics.services;
 
 import lombok.RequiredArgsConstructor;
+import org.capsule.com.statistics.configs.Status;
 import org.capsule.com.statistics.dtos.Score;
 import org.capsule.com.statistics.dtos.StatisticDTOResp;
+import org.capsule.com.statistics.dtos.UpdateStatisticDto;
 import org.capsule.com.statistics.models.Statistic;
 import org.capsule.com.statistics.utils.mappers.StatisticsMapper;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,22 @@ public class StatisticsService {
         String username = extractUsernameFromToken(token);
         Statistic statistic = statisticsDBService.findByUsername(username);
         return new ResponseEntity<>(statisticsMapper.toDto(statistic), HttpStatus.OK);
+    }
+
+    public void updateStatistics(UpdateStatisticDto payload) {
+        if(payload.status().equals(Status.COMPLETED.toString())){
+            incrementCompleted(payload.username());
+        }else if (payload.status().equals(Status.SKIPPED.toString())){
+            incrementSkipped(payload.username());
+        }
+    }
+
+    private void incrementCompleted(String username) {
+        statisticsDBService.incrementCompleted(username);
+    }
+
+    private void incrementSkipped(String username) {
+        statisticsDBService.incrementSkipped(username);
     }
 
     private String extractUsernameFromToken(String token) {
