@@ -13,8 +13,8 @@ on:
 jobs:
   api-gateway:
     env:
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ vars.DOCKER_ACCESS_TOKEN }}
     runs-on: ubuntu-latest
 
     steps:
