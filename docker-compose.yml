@@ -9,9 +9,11 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: 9qwe1ox
     ports:
-      - "5433:5432" #для подключения из вне (например, локальная разработка) используется проброшенный наружу порт 5433, в рамках сети докер используется внутренний порт 5432
+      - "5433:5432"
     networks:
       - capsule
+    volumes:
+      - postgres-auth-data:/var/lib/postgresql/data
 
   postgres-account:
     image: postgres:latest
@@ -26,6 +28,8 @@ services:
       - "5434:5432"
     networks:
       - capsule
+    volumes:
+      - postgres-account-data:/var/lib/postgresql/data
 
   postgres-email-verify:
     image: postgres:latest
@@ -40,6 +44,40 @@ services:
       - "5435:5432"
     networks:
       - capsule
+    volumes:
+      - postgres-email-verify-data:/var/lib/postgresql/data
+
+  postgres-statistics:
+    image: postgres:latest
+    container_name: statistics-service-db
+    hostname: postgres-statistics
+    restart: always
+    environment:
+      POSTGRES_DB: statistics-service
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 9qwe1ox
+    ports:
+      - "5436:5432"
+    networks:
+      - capsule
+    volumes:
+      - postgres-statistics-data:/var/lib/postgresql/data
+
+  postgres-tasks:
+    image: postgres:latest
+    container_name: tasks-service-db
+    hostname: postgres-tasks
+    restart: always
+    environment:
+      POSTGRES_DB: tasks-service
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 9qwe1ox
+    ports:
+      - "5437:5432"
+    networks:
+      - capsule
+    volumes:
+      - postgres-tasks-data:/var/lib/postgresql/data
 
   zookeeper:
     image: zookeeper:latest
@@ -70,6 +108,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     ports:
       - "9092:9092"
+      - "9093:9093"
     depends_on:
       - zookeeper
     networks:
@@ -93,8 +132,10 @@ services:
       - capsule
 
   eureka-server:
+    image: trapperumin/eureka-server:latest
     container_name: eureka-server
-    build: ./eureka-server
+    hostname: eureka-server
+    restart: always
     environment:
       EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
     ports:
@@ -103,8 +144,10 @@ services:
       - capsule
 
   api-gateway:
+    image: trapperumin/api-gateway:latest
     container_name: api-gateway
-    build: ./api-gateway
+    hostname: api-gateway
+    restart: always
     environment:
       EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
     ports:
@@ -115,8 +158,10 @@ services:
       - capsule
 
   auth-service:
+    image: trapperumin/auth-service:latest
     container_name: auth-service
-    build: ./auth-service
+    hostname: auth-service
+    restart: always
     environment:
       KAFKA_BOOTSTRAP_SERVER: kafka:9092
       EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
@@ -133,8 +178,10 @@ services:
       - capsule
 
   account-management-service:
+    image: trapperumin/account-management-service:latest
     container_name: account-management-service
-    build: ./account-management-service
+    hostname: account-management-service
+    restart: always
     environment:
       KAFKA_BOOTSTRAP_SERVER: kafka:9092
       EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
@@ -150,32 +197,108 @@ services:
     networks:
       - capsule
 
-#  notification-service:
-#    container_name: notification-service
-#    build: ./notification-service
-#    environment:
-#      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-#    ports:
-#      - "8083:8083"
-#    depends_on:
-#      - eureka-server
-#    networks:
-#      - capsule
-#
-#  vivid-log-service:
-#    container_name: vivid-log-service
-#    build: ./vivid-log-service
-#    environment:
-#      KAFKA_BOOTSTRAP_SERVER: kafka:9092
-#      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
-#    ports:
-#      - "8085:8085"
-#    depends_on:
-#      - kafka
-#      - eureka-server
-#    networks:
-#      - capsule
+  assay-passing-service:
+    image: trapperumin/assay-passing-service:latest
+    container_name: assay-passing-service
+    hostname: assay-passing-service
+    restart: always
+    environment:
+      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+    ports:
+      - "8083:8083"
+    depends_on:
+      - kafka
+      - eureka-server
+    networks:
+      - capsule
+
+  statistics-service:
+    image: trapperumin/statistics-service:latest
+    container_name: statistics-service
+    hostname: statistics-service
+    restart: always
+    environment:
+      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+      POSTGRES_USERNAME: root
+      POSTGRES_PASSWORD: 9qwe1ox
+      POSTGRES_ACCOUNT_URL: jdbc:postgresql://postgres-statistics:5432/statistics-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - kafka
+      - eureka-server
+      - postgres-statistics
+    networks:
+      - capsule
+
+  tasks-service:
+    image: trapperumin/tasks-service:latest
+    container_name: tasks-service
+    hostname: tasks-service
+    restart: always
+    environment:
+      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+      POSTGRES_USERNAME: root
+      POSTGRES_PASSWORD: 9qwe1ox
+      POSTGRES_ACCOUNT_URL: jdbc:postgresql://postgres-tasks:5432/tasks-service
+    ports:
+      - "8085:8085"
+    depends_on:
+      - kafka
+      - eureka-server
+      - postgres-tasks
+    networks:
+      - capsule
+
+  email-verify-service:
+    image: trapperumin/email-verify-service:latest
+    container_name: email-verify-service
+    hostname: email-verify-service
+    restart: always
+    environment:
+      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+      POSTGRES_USERNAME: root
+      POSTGRES_PASSWORD: 9qwe1ox
+      POSTGRES_ACCOUNT_URL: jdbc:postgresql://postgres-email-verify:5432/email-verify-service
+    ports:
+      - "8088:8088"
+    depends_on:
+      - kafka
+      - eureka-server
+      - postgres-email-verify
+    networks:
+      - capsule
+
+  email-verify-sender-service:
+    image: trapperumin/email-verify-sender-service:latest
+    container_name: email-verify-sender-service
+    hostname: email-verify-sender-service
+    restart: always
+    environment:
+      KAFKA_BOOTSTRAP_SERVER: kafka:9092
+      EUREKA_SERVER_URL: http://eureka-server:8761/eureka/
+    ports:
+      - "8089:8089"
+    depends_on:
+      - kafka
+      - eureka-server
+    networks:
+      - capsule
 
 networks:
   capsule:
     driver: bridge
+
+volumes:
+  postgres-auth-data:
+  postgres-account-data:
+  postgres-statistics-data:
+  postgres-tasks-data:
+  postgres-email-verify-data:
+  zookeeper-data:
+  zookeeper-log:
+  kafka-data:
