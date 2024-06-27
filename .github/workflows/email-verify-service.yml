@@ -35,15 +35,15 @@ jobs:
 
       - name: Build with Maven
         run: |
-          cd email-verify-service
+          cd email-verify-parent/email-verify-service
           mvn clean package -DskipTests
 
       - name: Build Docker image
         run: |
-          cd email-verify-service
+          cd email-verify-parent/email-verify-service
           docker build -t ${{ env.DOCKER_USERNAME }}/email-verify-service:latest .
 
       - name: Push Docker image
         run: |
-          cd email-verify-service
+          cd email-verify-parent/email-verify-service
           docker push ${{ env.DOCKER_USERNAME }}/email-verify-service:latest
