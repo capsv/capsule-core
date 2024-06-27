@@ -2,6 +2,7 @@ package org.capsule.com.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -30,14 +31,18 @@ public class DetailsService {
     private final Logger LOGGER = LoggerFactory.getLogger(DetailsService.class);
     private final GenerateFirstSecondNameService generateFirstSecondNameService;
     private final DetailsDBService detailsDBService;
+    private final DecodeJWTService decodeJWTService;
     private final KafkaProducerService kafkaProducerService;
     private final DetailsMapper detailsMapper;
     private final ObjectMapper objectMapper;
 
     public void createNewAccountFromKafka(String username) {
-        List<String> words = Arrays.asList(null, null);
+        List<String> words = new ArrayList<>(Arrays.asList(null, null));
         try {
-            words = generateFirstSecondNameService.get();
+            //words = generateFirstSecondNameService.get();
+            words.set(0, "Hello");
+            words.set(1, "World");
+
         } catch (IllegalArgumentException | IllegalStateException ex) {
             LOGGER.error("Error generating first and second names", ex);
         }
@@ -55,17 +60,17 @@ public class DetailsService {
         LOGGER.info("DetailsService [account-management-service] create entity [{}]", details);
     }
 
-    public ResponseEntity<Wrapper<Data>> get(String username) {
-        Details details = detailsDBService.findByUsername(username);
+    public ResponseEntity<Wrapper<Data>> get(String token) {
+        Details details = detailsDBService.findByUsername(extractUsername(token));
         LOGGER.info("DetailsService [account-management-service] get entity [{}]", details);
 
         return response(Message.SUCCESS_FIND_DETAILS_BY_USERNAME,
             List.of(detailsMapper.toDTO(details)));
     }
 
-    public ResponseEntity<Wrapper<Data>> partiallyUpdate(String username,
+    public ResponseEntity<Wrapper<Data>> partiallyUpdate(String token,
         Map<String, Object> updates) {
-        Details details = detailsDBService.findByUsername(username);
+        Details details = detailsDBService.findByUsername(extractUsername(token));
 
         updates.remove("username");
         Data data = objectMapper.convertValue(updates, Data.class);
@@ -78,11 +83,21 @@ public class DetailsService {
         return response(Message.SUCCESS_PARTIALLY_UPDATE, List.of(detailsMapper.toDTO(details)));
     }
 
-    public ResponseEntity<HttpStatus> delete(String username) {
-        LOGGER.info("DetailsService [account-management-service] deleted account [{}]", username);
+    public ResponseEntity<HttpStatus> delete(String token) {
+        String username = extractUsername(token);
         detailsDBService.deleteByUsername(username);
         kafkaProducerService.produce(Constants.DELETE_ACCOUNT_TOPIC, username);
+        LOGGER.info("DetailsService [account-management-service] deleted account [{}]", username);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private String extractUsername(String token){
+        try {
+            return decodeJWTService.extractUsername(token.substring(7));
+        } catch (Exception ex) {
+            LOGGER.error("DetailsService [account-management-service] error: ", ex);
+            throw new RuntimeException("JWT decoding error:", ex);
+        }
     }
 
     private <E extends CommonDTO> ResponseEntity<Wrapper<E>> response(String message,

@@ -1,0 +1,42 @@
+server:
+  port: 8084
+
+application:
+  security:
+    jwt:
+      secret-key: ${SECRET_KEY}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+
+spring:
+  application:
+    name: statistics-service
+
+  datasource:
+    url: ${POSTGRES_STATISTICS_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: false
+        show_sql: false
+        default_schema: statistic
+
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/changelog.yml
+    liquibase-schema: liquibase
+    default-schema: statistic
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}
+    consumer:
+      group-id: statistics-group
+      auto-offset-reset: earliest

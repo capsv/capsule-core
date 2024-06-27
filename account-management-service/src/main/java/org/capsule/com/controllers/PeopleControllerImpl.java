@@ -19,17 +19,17 @@ public class PeopleControllerImpl implements IDetailsController {
     private final DetailsService detailsService;
 
     @Override
-    public ResponseEntity<Wrapper<Data>> get(String username) {
-        return detailsService.get(username);
+    public ResponseEntity<Wrapper<Data>> get(String token) {
+        return detailsService.get(token);
     }
 
     @Override
-    public ResponseEntity<Wrapper<Data>> partiallyUpdate(String username, Map<String, Object> updates) {
-        return detailsService.partiallyUpdate(username, updates);
+    public ResponseEntity<Wrapper<Data>> partiallyUpdate(String token, Map<String, Object> updates) {
+        return detailsService.partiallyUpdate(token, updates);
     }
 
     @Override
-    public ResponseEntity<HttpStatus> delete(String username) {
-        return detailsService.delete(username);
+    public ResponseEntity<HttpStatus> delete(String token) {
+        return detailsService.delete(token);
     }
 }

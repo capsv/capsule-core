@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-main-migration
+      author: trapper
+      changes:
+        - sqlFile:
+            path: migrations/sql/001-main-migration.sql
+            relativeToChangelogFile: true
+            splitStatements: true

@@ -10,5 +10,6 @@ public class Constants {
     public static final String NOT_FOUND_MESSAGE = "subject is not found";
     public static final String NOT_VALID_MESSAGE = "token is not valid";
     public static final String INTERNAL_SERVER_ERROR_MESSAGE = "some problems on the server, try again later";
+    public static final String SUCCESS_MESSAGE = "success";
 
 }

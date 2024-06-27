@@ -46,6 +46,9 @@ public class Person extends CommonEntity {
     @Column(name = "is_confirm")
     private boolean isConfirm;
 
+    @Column(name = "is_assay")
+    private boolean isAssay;
+
     @Override
     public String toString() {
         return "Person{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email

@@ -1,0 +1,39 @@
+server:
+  port: 8085
+
+application:
+  security:
+    jwt:
+      secret-key: ${SECRET_KEY}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+
+spring:
+  application:
+    name: tasks-service
+
+  datasource:
+    url: ${POSTGRES_TASKS_URL}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: false
+        show_sql: false
+        default_schema: task
+
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/changelog.yml
+    liquibase-schema: liquibase
+    default-schema: task
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}

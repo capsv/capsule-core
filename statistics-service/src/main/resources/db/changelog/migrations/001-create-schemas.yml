@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-create-schemas
+      author: trapper
+      changes:
+        - sqlFile:
+            path: migrations/sql/001-create-schemas.sql
+            relativeToChangelogFile: true
+            splitStatements: true

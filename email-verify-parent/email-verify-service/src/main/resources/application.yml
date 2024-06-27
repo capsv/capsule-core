@@ -5,6 +5,10 @@ logging:
   level:
     liquibase: INFO
 
+application:
+  security:
+    jwt:
+      secret-key: ${SECRET_KEY}
 
 eureka:
   client:

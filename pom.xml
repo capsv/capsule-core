@@ -27,9 +27,11 @@
         <module>api-gateway</module>
         <module>auth-service</module>
         <module>account-management-service</module>
+        <module>assay-passing-service</module>
+        <module>statistics-service</module>
+        <module>tasks-service</module>
         <module>email-verify-parent</module>
-        <module>notification-service</module>
-        <module>vivid-log-service</module>
+        <module>logs-service</module>
     </modules>
 
     <dependencyManagement>

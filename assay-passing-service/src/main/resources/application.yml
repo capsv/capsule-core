@@ -1,0 +1,19 @@
+server:
+  port: 8083
+
+application:
+  security:
+    jwt:
+      secret-key: ${SECRET_KEY}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL}
+
+spring:
+  application:
+    name: assay-passing-service
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}

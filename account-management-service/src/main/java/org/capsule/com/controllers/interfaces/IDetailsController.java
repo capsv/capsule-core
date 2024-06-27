@@ -8,18 +8,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 public interface IDetailsController {
 
-    @GetMapping(value = "/{username}", produces = "application/json")
-    ResponseEntity<Wrapper<Data>> get(@PathVariable("username") String username);
+    @GetMapping(headers = {"Authorization"}, produces = "application/json")
+    ResponseEntity<Wrapper<Data>> get(@RequestHeader("Authorization") String token);
 
-    @PatchMapping("/{username}")
-    ResponseEntity<Wrapper<Data>> partiallyUpdate(@PathVariable("username") String username,
+    @PatchMapping(headers = {"Authorization"},
+        consumes = "application/json", produces = "application/json")
+    ResponseEntity<Wrapper<Data>> partiallyUpdate(@RequestHeader("Authorization") String token,
         @RequestBody Map<String, Object> updates);
 
-    @DeleteMapping("/{username}")
-    ResponseEntity<HttpStatus> delete(@PathVariable("username") String username);
+    @DeleteMapping(headers = {"Authorization"})
+    ResponseEntity<HttpStatus> delete(@RequestHeader("Authorization") String token);
 }

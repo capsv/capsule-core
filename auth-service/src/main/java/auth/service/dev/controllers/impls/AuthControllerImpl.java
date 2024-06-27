@@ -37,6 +37,11 @@ public abstract class AuthControllerImpl implements IAuthController {
     }
 
     @Override
+    public ResponseEntity<ResponseWrapper> get(String token) {
+        return authService.get(token);
+    }
+
+    @Override
     public ResponseEntity<Boolean> validate(TokenReqst token) {
         return authService.validateToken(token);
     }

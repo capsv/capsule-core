@@ -1,5 +1,6 @@
 package auth.service.dev.dtos.responses.entities;
 
+import auth.service.dev.dtos.CommonDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +12,7 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Credentials {
+public class Credentials extends CommonDTO {
 
     private String username;
 
@@ -19,5 +20,6 @@ public class Credentials {
 
     private boolean confirm; //TODO почему isConfirm возвращается в JSON как confirm
 
+    private boolean assay;
     //TODO authorities
 }
