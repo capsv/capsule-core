@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.capsule.com.utils.htmls.LetterPatternHTML;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
