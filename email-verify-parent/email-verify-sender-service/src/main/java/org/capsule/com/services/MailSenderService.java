@@ -31,8 +31,8 @@ public class MailSenderService {
             helper.setSubject(subject);
             helper.setText(letter, true);
             mailSender.send(message);
-        } catch (MailException | MessagingException e) {
-            throw new RuntimeException(e);
+        } catch (MailException | MessagingException ex) {
+            throw new RuntimeException(ex);
         }
     }
 }
